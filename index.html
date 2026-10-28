@@ -1,0 +1,1578 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Global Pro Wrestling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Big+Shoulders+Display:wght@700;800;900&display=swap">
+<style id="fed-style">
+:root{
+  /* Layout: sticky header over a three-rope rule, a fight-poster hero, then quiet panels in one 1120px column */
+  --bg:#ECEEF2;
+  --surface:#FFFFFF;
+  --surface-2:#E1E4EA;
+  --fg:#151922;
+  --muted:#5A6273;
+  --line:#D1D5DD;
+  --gold:#8A6600;
+  --plate:#D8AC43;
+  --plate-ink:#2A1F00;
+  --red:#B0142E;
+  --blue:#1D5AB5;
+  --win:#1C7543;
+  --rope-mid:#C3C8D2;
+  --poster:#11141B;
+  --poster-2:#262C39;
+  --poster-fg:#F2F3F6;
+  --poster-muted:#A7AEBC;
+  --scrim:rgba(10,12,18,.55);
+  --shadow:0 1px 2px rgba(17,20,27,.06),0 10px 30px rgba(17,20,27,.12);
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-label:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C0F15;--surface:#151922;--surface-2:#1E232E;--fg:#ECEEF2;--muted:#9AA2B3;--line:#2A303D;
+    --gold:#E2B850;--plate:#D8AC43;--plate-ink:#241A00;--red:#F05168;--blue:#78A8F7;--win:#4CC783;--rope-mid:#E6E8EC;
+    --poster:#06080C;--poster-2:#232938;--poster-fg:#F2F3F6;--poster-muted:#A7AEBC;--scrim:rgba(0,0,0,.65);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.45);color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C0F15;--surface:#151922;--surface-2:#1E232E;--fg:#ECEEF2;--muted:#9AA2B3;--line:#2A303D;
+  --gold:#E2B850;--plate:#D8AC43;--plate-ink:#241A00;--red:#F05168;--blue:#78A8F7;--win:#4CC783;--rope-mid:#E6E8EC;
+  --poster:#06080C;--poster-2:#232938;--poster-fg:#F2F3F6;--poster-muted:#A7AEBC;--scrim:rgba(0,0,0,.65);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.45);color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;line-height:1;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance;margin:0}
+h2{font-size:1.7rem}
+h3{font-size:1.25rem}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lbl{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;color:var(--muted)}
+.sp{flex:1}
+
+/* Header */
+.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface)}
+.head-in{display:flex;align-items:center;gap:14px;padding-block:12px 4px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0;flex:1}
+.brand-mark{flex:none;display:grid;place-items:center;min-width:48px;height:48px;padding:0 8px;background:var(--plate);color:var(--plate-ink);font-family:var(--f-display);font-weight:900;font-size:1.4rem;border-radius:4px;letter-spacing:.02em}
+.brand-text{display:flex;flex-direction:column;min-width:0}
+.logo{height:60px;width:auto;flex:none;display:block}
+.brand-name{font-family:var(--f-label);font-weight:700;font-size:.95rem;text-transform:uppercase;line-height:1.1;letter-spacing:.22em;color:var(--gold)}
+.brand-tag{font-size:.82rem;color:var(--muted)}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-inline:-10px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;font-family:var(--f-label);font-weight:600;font-size:1.02rem;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;color:var(--muted);padding:8px 10px 7px;border-bottom:3px solid transparent}
+.tab:hover{color:var(--fg)}
+.tab[aria-current="page"]{color:var(--fg);border-bottom-color:var(--plate)}
+.ropes{height:14px;background:linear-gradient(var(--red),var(--red)) 0 2px/100% 2px no-repeat,linear-gradient(var(--rope-mid),var(--rope-mid)) 0 6px/100% 2px no-repeat,linear-gradient(var(--blue),var(--blue)) 0 10px/100% 2px no-repeat,var(--bg)}
+@media (max-width:560px){.brand-tag{display:none}.logo{height:46px}.brand-name{font-size:.8rem;letter-spacing:.16em}}
+
+/* Layout */
+.main{padding-block:22px 56px;display:flex;flex-direction:column;gap:32px}
+.has-bar .main{padding-bottom:120px}
+.sec{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px 14px;flex-wrap:wrap}
+.page-title{font-size:clamp(2.4rem,7vw,3.4rem);font-weight:900}
+.more{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.92rem;color:var(--gold);text-decoration:none}
+.more:hover{text-decoration:underline}
+.cols{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:32px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:32px;min-width:0}
+@media (max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.pad{padding:18px 20px}
+.lede{color:var(--muted);max-width:68ch;font-size:1.02rem}
+.prose{display:flex;flex-direction:column;gap:10px;max-width:68ch}
+.empty{color:var(--muted);padding:18px;border:1px dashed var(--line);border-radius:6px}
+.back{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-decoration:none;align-self:flex-start}
+.back:hover{color:var(--fg)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:var(--f-label);font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.06em;padding:9px 16px;border-radius:4px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;text-decoration:none;line-height:1.1;white-space:nowrap}
+.btn:hover{border-color:var(--fg)}
+.btn.primary{background:var(--plate);border-color:var(--plate);color:var(--plate-ink)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{padding:6px 10px;font-size:.84rem}
+.btn.danger{color:var(--red)}
+.btn.armed{background:var(--red);border-color:var(--red);color:var(--surface)}
+.btn.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.linkish{background:none;border:0;padding:0;color:var(--gold);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
+
+/* Chips and plates */
+.plate{display:inline-block;align-self:flex-start;background:var(--plate);color:var(--plate-ink);font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.74rem;line-height:1.25;padding:3px 7px;border-radius:3px}
+.align{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;line-height:1.3;padding:1px 6px;border-radius:3px;border:1px solid currentColor}
+.align.face{color:var(--blue)}.align.heel{color:var(--red)}.align.tweener{color:var(--muted)}
+.pill{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;line-height:1.3;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.up{color:var(--blue)}.pill.done{color:var(--win)}.pill.pend{color:var(--muted)}.pill.tonight{color:var(--red)}
+.rec{font-family:var(--f-label);font-weight:600;font-variant-numeric:tabular-nums;font-size:.98rem}
+.stars{color:var(--gold);letter-spacing:.04em;white-space:nowrap;font-size:1rem}
+.fm{display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 4px;font-family:var(--f-label);font-weight:700;font-size:.74rem;border-radius:3px;border:1px solid var(--line);color:var(--muted)}
+.fm.W{background:var(--win);border-color:var(--win);color:var(--surface)}
+.fm.L{color:var(--red);border-color:currentColor}
+.form{display:inline-flex;gap:3px;flex-wrap:wrap}
+
+/* Avatars */
+.ava{flex:none;display:grid;place-items:center;overflow:hidden;background:hsl(var(--h,220) 36% 34%);color:#F4F5F8;font-family:var(--f-display);font-weight:900;text-transform:uppercase;border-radius:6px;line-height:1}
+.ava img{width:100%;height:100%;object-fit:cover;display:block}
+.ava.vacant{background:var(--surface-2);color:var(--muted)}
+.ava.sm{width:36px;height:36px;font-size:.95rem;border-radius:50%}
+.ava.md{width:54px;height:54px;font-size:1.35rem}
+.ava.lg{width:100%;aspect-ratio:4/3;max-width:100%;font-size:3.4rem;border-radius:0}
+.ava.xl{width:100%;max-width:260px;aspect-ratio:1;font-size:5.4rem}
+
+/* Poster hero */
+.poster{position:relative;overflow:hidden;background:var(--poster);color:var(--poster-fg);border-radius:8px;isolation:isolate}
+.poster::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(112deg,transparent 0 64%,var(--red) 64% 71%,transparent 71% 74%,var(--plate) 74% 76%,transparent 76% 79%,var(--blue) 79% 83%,transparent 83%)}
+.poster-in{display:flex;flex-direction:column;gap:14px;align-items:flex-start;padding:clamp(22px,4.5vw,46px);max-width:min(100%,660px)}
+.poster-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kind{font-family:var(--f-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem;padding:2px 8px;border-radius:3px;border:1px solid var(--poster-muted);color:var(--poster-fg)}
+.poster.ppv .kind{background:var(--plate);border-color:var(--plate);color:var(--plate-ink)}
+.poster .eyebrow{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.86rem;color:var(--poster-muted)}
+.poster-name{font-size:clamp(2.9rem,9vw,6.2rem);font-weight:900;line-height:.86;color:var(--poster-fg)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.od-head{display:flex;align-items:flex-end;gap:10px;margin:0}
+.od-logo{height:clamp(130px,22vw,200px);width:auto;max-width:100%;display:block}
+.od-ep{font-family:var(--f-display);font-weight:900;font-size:clamp(2.4rem,6vw,4rem);line-height:1;color:var(--plate);padding-bottom:.18em}
+.poster-meta{color:var(--poster-muted);font-size:1rem}
+.poster-venue{display:flex;align-items:center;gap:10px;margin-top:-4px}
+.poster-venue svg{width:22px;height:22px;flex:none;color:var(--plate)}
+.poster.ppvx .poster-venue svg{color:var(--pp-accent)}
+.poster-venue>span{display:flex;flex-direction:column;line-height:1.15}
+.pv-arena{font-family:var(--f-display);font-weight:800;font-size:1.35rem;text-transform:uppercase;color:var(--poster-fg)}
+.pv-city{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--poster-muted)}
+.poster-venue.tba{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.82rem;color:var(--poster-muted)}
+.poster-tag{color:var(--poster-fg);font-size:1.05rem;max-width:52ch}
+.pm{display:flex;flex-direction:column;gap:6px;padding-top:14px;border-top:1px solid var(--poster-2);align-self:stretch}
+.pm-label{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.84rem;color:var(--poster-muted)}
+.pm-vs{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(1.5rem,3.8vw,2.3rem);line-height:1.02;color:var(--plate)}
+.pm-vs .vs{color:var(--poster-muted);font-size:.58em;margin:0 .4em;vertical-align:.18em}
+.pm-c{color:var(--poster-muted);font-size:.6em;vertical-align:.18em}
+@media (max-width:980px){.poster::before{opacity:.32}}
+
+/* Pay-per-view posters */
+.poster.ppvx{background:var(--pp-bg);color:#F2F3F6}
+.poster.ppvx::before{display:none}
+.pp-art{position:absolute;z-index:-1;top:0;bottom:0;right:0;width:52%;color:var(--pp-accent);display:grid;place-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%);mask-image:linear-gradient(90deg,transparent,#000 30%)}
+.pp-svg{width:min(100%,440px);height:auto;max-height:100%;padding:18px}
+.pp-art.cage{opacity:.32;background:repeating-linear-gradient(45deg,transparent 0 20px,var(--pp-accent) 20px 22px),repeating-linear-gradient(-45deg,transparent 0 20px,var(--pp-accent) 20px 22px)}
+.pp-art.fire{background:radial-gradient(ellipse 70% 80% at 70% 115%,var(--pp-accent),transparent 70%),radial-gradient(ellipse 45% 60% at 35% 115%,#FF2E00,transparent 70%)}
+.pp-art.rays{opacity:.3;background:repeating-conic-gradient(from 0deg at 72% 50%,var(--pp-accent) 0 6deg,transparent 6deg 18deg)}
+.pp-art.stripes{background:linear-gradient(112deg,transparent 0 30%,var(--red) 30% 44%,transparent 44% 50%,var(--plate) 50% 54%,transparent 54% 60%,var(--blue) 60% 68%,transparent 68%)}
+.poster.ppvx .kind{background:var(--pp-accent);border-color:var(--pp-accent);color:#0B0B0F;letter-spacing:.16em}
+.poster.ppvx .poster-name{font-size:clamp(3.4rem,11vw,7.8rem)}
+.pp-count{display:flex;align-items:baseline;gap:10px}
+.pp-num{font-family:var(--f-display);font-weight:900;font-size:clamp(2.6rem,6vw,4.2rem);line-height:.9;color:var(--pp-accent);font-variant-numeric:tabular-nums;text-transform:uppercase}
+.pp-unit{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#A7AEBC}
+.poster.ppvx .pm-vs{color:var(--pp-accent)}
+.poster.ppvx .btn.primary{background:var(--pp-accent);border-color:var(--pp-accent);color:#0B0B0F}
+@media (max-width:760px){.pp-art{width:100%;opacity:.28}}
+
+/* Champions */
+.champ-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.champ{display:flex;gap:12px;align-items:center;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;text-decoration:none;min-width:0}
+.champ:hover{border-color:var(--plate)}
+.champ-body{display:flex;flex-direction:column;gap:4px;min-width:0}
+.champ-name{font-family:var(--f-display);font-weight:800;font-size:1.35rem;text-transform:uppercase;line-height:1.02}
+.champ-sub{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Results list (home) */
+.res-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.res-list li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.rl-main{display:flex;flex-direction:column;gap:3px;min-width:0}
+.rl-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.rl-text a{text-decoration:none}
+.rl-text a:hover{text-decoration:underline}
+.top5{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.top5 li{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+.t5-n{font-family:var(--f-display);font-weight:900;font-size:1.4rem;color:var(--gold);line-height:1}
+.top5 a{font-weight:600;text-decoration:none}
+.top5 a:hover{text-decoration:underline}
+.mini-promos{display:flex;flex-direction:column;gap:10px}
+.mini-promo{display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;text-decoration:none}
+.mini-promo:hover{border-color:var(--plate)}
+.mp-title{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:1.15rem;line-height:1.05}
+.mp-who{font-size:.8rem;color:var(--muted)}
+.mp-excerpt{font-size:.9rem}
+
+/* News */
+.news-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.news-item{display:flex;flex-direction:column;gap:6px;padding:14px 0;border-bottom:1px solid var(--line)}
+.ni-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ni-title{font-size:1.45rem;line-height:1.02}
+.ni-body{font-size:.95rem}
+
+/* Shows */
+.srows{display:flex;flex-direction:column;gap:10px}
+.srow{display:flex;gap:14px;align-items:center;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:6px;text-decoration:none}
+.srow:hover{border-color:var(--plate)}
+.cal{flex:none;width:58px;display:flex;flex-direction:column;align-items:center;border:1px solid var(--line);border-radius:4px;overflow:hidden;font-family:var(--f-label);text-transform:uppercase;line-height:1}
+.c-dow{width:100%;text-align:center;background:var(--fg);color:var(--bg);font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:3px 0}
+.c-day{font-family:var(--f-display);font-weight:900;font-size:1.65rem;padding-top:5px;font-variant-numeric:tabular-nums}
+.c-mon{font-size:.72rem;font-weight:600;letter-spacing:.08em;color:var(--muted);padding:2px 0 5px}
+.sr-body{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.sr-name{font-family:var(--f-display);font-weight:800;font-size:1.4rem;text-transform:uppercase;line-height:1.02}
+.sr-meta{font-size:.86rem;color:var(--muted)}
+.card-list{display:flex;flex-direction:column;gap:12px}
+.match{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.match.changed{border-color:var(--plate)}
+.m-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.m-label{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;color:var(--red)}
+.m-stip{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;color:var(--muted)}
+.newchamp{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;line-height:1.3;padding:3px 7px;border-radius:3px;background:var(--red);color:var(--surface)}
+.m-top{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+.m-sides{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(1.25rem,3vw,1.6rem);line-height:1.08;min-width:0}
+.m-sides a{text-decoration:none}
+.m-sides a:hover{text-decoration:underline}
+.side.lost{color:var(--muted)}
+.m-sides .vs{font-family:var(--f-label);font-weight:600;font-size:.62em;color:var(--muted);margin:0 .45em;vertical-align:.12em}
+.c{font-family:var(--f-label);font-weight:600;font-size:.62em;color:var(--gold);text-decoration:none;vertical-align:.12em;margin-left:.15em}
+.m-res{font-size:.97rem}
+.m-foot{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.vsg{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;padding:18px 14px;background:var(--poster);color:var(--poster-fg);border-radius:6px}
+.vsg::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.6;background:linear-gradient(112deg,transparent 0 45.5%,var(--red) 45.5% 48%,transparent 48% 49%,var(--plate) 49% 50.2%,transparent 50.2% 51.2%,var(--blue) 51.2% 53.7%,transparent 53.7%)}
+.vsg.multi{display:flex;flex-wrap:wrap;justify-content:center}
+.vs-side{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;min-width:0}
+.vs-avas{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.ava.vs{width:88px;height:88px;font-size:2.1rem;border:2px solid var(--poster-2)}
+.vs-names{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(1.1rem,2.6vw,1.5rem);line-height:1.04;color:var(--poster-fg);overflow-wrap:anywhere}
+.vs-names a{text-decoration:none}
+.vs-names a:hover{text-decoration:underline}
+.vsg .c{color:var(--plate)}
+.vs-mid{font-family:var(--f-display);font-weight:900;font-size:2.2rem;line-height:1;color:var(--plate);padding:6px 10px;background:var(--poster);border-radius:4px}
+.vs-side.lost .vs-names{color:var(--poster-muted)}
+.vs-side.lost .ava{filter:grayscale(1) brightness(.7)}
+.vs-side.won .ava.vs{border-color:var(--plate)}
+@media (max-width:520px){.ava.vs{width:64px;height:64px;font-size:1.6rem}.vs-mid{font-size:1.7rem}.vsg{gap:8px;padding:14px 10px}}
+.m-res.pending{color:var(--muted);font-style:italic}
+.m-time{font-variant-numeric:tabular-nums;color:var(--muted)}
+.m-recap{color:var(--muted);max-width:70ch}
+
+/* Roster */
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.88rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.search{flex:1 1 220px;max-width:340px}
+.roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.roster-grid>.empty{grid-column:1/-1}
+@media (max-width:520px){.roster-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.ava.lg{font-size:2.6rem}}
+.wcard{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:6px;text-decoration:none;overflow:hidden;min-width:0}
+.wcard:hover{border-color:var(--plate)}
+.wc-body{display:flex;flex-direction:column;gap:5px;padding:10px 12px 13px;min-width:0}
+.wc-name{font-family:var(--f-display);font-weight:800;font-size:1.32rem;text-transform:uppercase;line-height:1.02;overflow-wrap:anywhere}
+.wc-nick{font-size:.85rem;color:var(--muted)}
+.wc-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.wc-status{font-size:.8rem;color:var(--muted);font-style:italic}
+
+/* Profile */
+.profile{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:28px;align-items:end}
+@media (max-width:640px){.profile{grid-template-columns:minmax(0,1fr);gap:18px}.ava.xl{max-width:170px;font-size:4rem}}
+.pf-media{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pf-credit{max-width:260px;overflow-wrap:anywhere}
+.pf-main{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pf-tags,.pf-held{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pf-name{font-size:clamp(2.7rem,8vw,4.8rem);font-weight:900;line-height:.88;overflow-wrap:anywhere}
+.pf-nick{font-family:var(--f-display);font-weight:700;font-size:1.45rem;text-transform:uppercase;color:var(--gold);line-height:1.05}
+.pf-record{display:flex;align-items:baseline;gap:6px 12px;flex-wrap:wrap}
+.big{font-family:var(--f-display);font-weight:900;font-size:2.5rem;font-variant-numeric:tabular-nums;line-height:1}
+.pf-form{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tape{display:grid;grid-template-columns:auto minmax(0,1fr);margin:0;border-top:1px solid var(--line)}
+.tape dt,.tape dd{padding:9px 0;border-bottom:1px solid var(--line);margin:0}
+.tape dt{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;color:var(--muted);padding-right:18px;padding-top:11px}
+.hist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.hist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);align-items:start}
+.hist .fm{margin-top:2px}
+.h-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.h-line{font-weight:600}
+.h-line a,.h-sub a{text-decoration:none}
+.h-line a:hover,.h-sub a:hover{text-decoration:underline}
+.h-with{font-weight:400;color:var(--muted)}
+.h-sub{font-size:.84rem;color:var(--muted)}
+.won-title{color:var(--gold)}
+.upnext{display:flex;flex-direction:column;gap:8px}
+.up-row{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px dashed var(--line);border-radius:6px;text-decoration:none}
+.up-row:hover{border-color:var(--plate)}
+.up-sub{font-size:.84rem;color:var(--muted)}
+.reigns{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.reigns li{display:flex;flex-direction:column;gap:3px}
+
+/* Titles */
+.tcard{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.tc-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:18px 20px 14px}
+.tc-name{display:flex;flex-direction:column;gap:6px;min-width:0}
+.tier{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.8rem;color:var(--gold)}
+.tc-about{color:var(--muted);font-size:.92rem}
+.tc-champ{display:flex;gap:14px;align-items:center;padding:14px 20px;margin:0 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-inline:0}
+.tc-cb{display:flex;flex-direction:column;gap:3px;min-width:0}
+.tc-who{font-family:var(--f-display);font-weight:800;font-size:1.7rem;text-transform:uppercase;line-height:1.02}
+.tc-who a{text-decoration:none}
+.tc-who a:hover{text-decoration:underline}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tcard .tbl-wrap{padding:4px 10px 12px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;color:var(--muted);text-align:left;padding:10px;border-bottom:2px solid var(--line);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+td a{text-decoration:none}
+td a:hover{text-decoration:underline}
+.num{text-align:right;white-space:nowrap}
+.rk{font-family:var(--f-display);font-weight:900;font-size:1.35rem;color:var(--gold)}
+.rk-who{display:flex;gap:10px;align-items:center;text-decoration:none;min-width:180px}
+.rk-txt{display:flex;flex-direction:column;gap:3px}
+.rk-name{font-weight:700}
+
+/* PPV match graphics */
+.vsg.ppv{background:var(--pp-bg)}
+.vsg.ppv::before{display:none}
+.pp-art.vs-art{left:0;right:0;width:100%;opacity:.22;-webkit-mask-image:none;mask-image:none}
+.pp-art.vs-art.cage{opacity:.18}
+.vs-art .pp-svg{height:100%;width:auto;max-width:100%;padding:6px}
+.vsg.ppv .vs-mid{color:var(--pp-accent);background:var(--pp-bg)}
+.vsg.ppv .c{color:var(--pp-accent)}
+.vsg.ppv .vs-side.won .ava.vs{border-color:var(--pp-accent)}
+@media (max-width:760px){.pp-art.vs-art{width:100%;opacity:.2}}
+
+/* Promo hub */
+.m-actions{display:flex;gap:8px;flex-wrap:wrap}
+.thread-btn{border-color:var(--plate)}
+.hub{overflow:hidden;display:flex;flex-direction:column}
+.hub-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px 24px;flex-wrap:wrap;padding:18px 20px;background:var(--poster);color:var(--poster-fg)}
+.hub-head.ppv{background:var(--pp-bg)}
+.hub-head .kind{align-self:flex-start;font-family:var(--f-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.76rem;padding:2px 8px;border-radius:3px;border:1px solid var(--poster-muted);color:var(--poster-fg)}
+.hub-head.ppv .kind{background:var(--pp-accent);border-color:var(--pp-accent);color:#0B0B0F}
+.hub-title{display:flex;flex-direction:column;gap:6px;min-width:0}
+.hub-title h2{font-size:clamp(1.7rem,4vw,2.3rem);color:var(--poster-fg)}
+.hub-title h2 a{text-decoration:none}
+.hub-title h2 a:hover{text-decoration:underline}
+.hub-date{font-size:.9rem;color:var(--poster-muted)}
+.hub-due{display:flex;flex-direction:column;gap:2px;text-align:right}
+.hub-due .lbl{color:var(--poster-muted)}
+.hub-count{font-family:var(--f-display);font-weight:900;font-size:clamp(1.6rem,4vw,2.2rem);line-height:1;color:var(--plate);font-variant-numeric:tabular-nums;text-transform:uppercase}
+.hub-head.ppv .hub-count{color:var(--pp-accent)}
+.hub-when{font-size:.84rem;color:var(--poster-muted)}
+@media (max-width:560px){.hub-due{text-align:left}}
+.hub-list{list-style:none;margin:0;padding:0 20px}
+.hub-row{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--line)}
+.hub-row:last-child{border-bottom:0}
+.hub-match{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1 1 300px}
+.hub-names{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:1.25rem;line-height:1.08}
+.hub-names .vs{font-family:var(--f-label);font-weight:600;font-size:.75em;color:var(--muted);margin:0 .2em}
+.hub-empty{margin:16px 20px}
+.steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:10px;max-width:68ch}
+.steps strong{font-weight:700}
+
+/* Forums */
+.forum-hero{background:var(--poster);color:var(--poster-fg);border-radius:8px;position:relative;overflow:hidden;isolation:isolate}
+.forum-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(112deg,transparent 0 70%,var(--red) 70% 75%,transparent 75% 77%,var(--plate) 77% 78.5%,transparent 78.5% 80.5%,var(--blue) 80.5% 83.5%,transparent 83.5%)}
+.fh-in{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:clamp(22px,4vw,40px);max-width:640px}
+.fh-eyebrow{color:var(--plate)}
+.forum-hero .page-title{color:var(--poster-fg)}
+.fh-text{color:var(--poster-fg);font-size:1.05rem;max-width:56ch}
+@media (max-width:760px){.forum-hero::before{opacity:.3}}
+.board-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.board{display:flex;flex-direction:column;gap:4px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.board-name{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:1.25rem;line-height:1.05}
+.board-desc{font-size:.9rem;color:var(--muted)}
+
+/* Brackets */
+.tourney{display:flex;flex-direction:column;gap:12px}
+.bracket-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.bracket{display:grid;grid-template-columns:repeat(var(--cols),minmax(210px,1fr));gap:22px;min-width:calc(var(--cols) * 230px)}
+.b-col{display:flex;flex-direction:column;gap:10px}
+.b-list{display:flex;flex-direction:column;justify-content:space-around;gap:14px;flex:1}
+.bm{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:6px;background:var(--bg);text-decoration:none;overflow:hidden}
+.bm:hover{border-color:var(--plate)}
+.bm-row{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;font-weight:600}
+.bm-row+.bm-row{border-top:1px solid var(--line)}
+.bm-row.won{color:var(--fg)}
+.bm-row.lost{color:var(--muted);font-weight:400}
+.bm-row.tbd{color:var(--muted);font-weight:400;font-style:italic;font-size:.9rem}
+.bm-adv{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;color:var(--win)}
+.bm-show{font-size:.76rem;color:var(--muted);padding:4px 10px 6px;border-top:1px dashed var(--line)}
+.b-champ{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px dashed var(--plate);border-radius:6px}
+.b-champ.crowned{border-style:solid;background:var(--surface)}
+.b-champ-name{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:1.3rem;line-height:1.05}
+.vs-side.tbd .vs-names{color:var(--poster-muted);font-family:var(--f-label);font-weight:600;font-size:1rem;letter-spacing:.04em}
+.pm-tbd{color:var(--poster-muted);font-size:.7em}
+
+/* Promos */
+.promo-list{display:flex;flex-direction:column;gap:14px}
+.promo{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pr-head{display:flex;gap:10px;align-items:center}
+.pr-meta{display:flex;flex-direction:column;min-width:0;flex:1}
+.pr-who{font-weight:700;text-decoration:none}
+.pr-who:hover{text-decoration:underline}
+.pr-date{font-size:.82rem;color:var(--muted)}
+.pr-date a{color:inherit}
+.pr-title{font-size:1.55rem}
+.pr-body{display:flex;flex-direction:column;gap:10px;max-width:68ch;font-size:1rem}
+.pr-body.clamp{max-height:9.6em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+.deadline{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.inline{display:flex;gap:10px;align-items:center}
+.inline select{width:auto;min-width:200px;max-width:100%}
+
+/* Join */
+.contact-line{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.contact{font-weight:700;font-size:1.05rem;overflow-wrap:anywhere}
+.app-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#a-out{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px}
+
+/* Forms */
+input,select,textarea{font:inherit;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:8px 10px;width:100%;min-width:0}
+textarea{resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0;border-color:transparent}
+input[type="color"]{height:42px;padding:4px;cursor:pointer}
+input[type="file"]{padding:6px;background:transparent;border-style:dashed}
+.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
+.fld>label,.lbl-like{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;color:var(--muted)}
+.hint{font-size:.82rem;color:var(--muted)}
+.err{font-size:.88rem;color:var(--red);font-weight:600}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 14px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px 14px}
+@media (max-width:560px){.grid2,.grid3{grid-template-columns:minmax(0,1fr)}}
+.photo-row{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.photo-ctl{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px}
+
+/* Editor dialog */
+dialog.editor{width:min(680px,calc(100% - 24px));max-height:calc(100% - 24px);padding:0;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+dialog.editor.wide{width:min(880px,calc(100% - 24px))}
+dialog.editor[open]{display:flex;flex-direction:column}
+dialog.editor::backdrop{background:var(--scrim)}
+.ed-form{display:flex;flex-direction:column;flex:1;min-height:0}
+.ed-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.ed-head h2{font-size:1.6rem}
+.ed-body{overflow:auto;padding:18px;display:flex;flex-direction:column;gap:14px;min-height:0}
+.ed-foot{display:flex;gap:8px;align-items:center;padding:12px 18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.icon-btn{background:none;border:0;font-size:1.7rem;line-height:1;color:var(--muted);cursor:pointer;padding:2px 8px;border-radius:4px}
+.icon-btn:hover{color:var(--fg)}
+.mb{display:flex;flex-direction:column;gap:14px}
+.mb-head{display:flex;flex-direction:column;gap:4px;padding-top:6px;border-top:1px solid var(--line);padding-top:16px}
+.mb-match{border:1px solid var(--line);border-radius:6px;padding:12px 14px 14px;margin:0;display:flex;flex-direction:column;gap:12px;min-width:0}
+.mb-match legend{font-family:var(--f-label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:0 6px}
+.mb-tools{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.mb-sides{display:flex;flex-direction:column;gap:6px}
+.mb-side{display:flex;flex-direction:column;gap:8px;padding:10px;background:var(--bg);border-radius:4px}
+.mb-side-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.mb-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.mb-chips select{width:auto;flex:1 1 170px}
+.chip{display:inline-flex;align-items:center;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 11px;font-size:.92rem;font-weight:600}
+.chip button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:1.1rem;line-height:1;padding:0 6px;border-radius:999px}
+.chip button:hover{color:var(--red)}
+.mb-vs{align-self:center;font-family:var(--f-label);font-weight:700;text-transform:uppercase;color:var(--muted);font-size:.8rem;letter-spacing:.08em}
+
+/* Booker tools */
+.notice{background:var(--surface);border:1px dashed var(--plate);border-radius:6px;padding:14px 16px;display:flex;gap:10px 12px;align-items:center;flex-wrap:wrap}
+.notice p{flex:1 1 320px}
+.bkbar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--poster);color:var(--poster-fg);padding-bottom:env(safe-area-inset-bottom,0px);border-top:3px solid var(--plate)}
+.bk-in{display:flex;gap:8px;align-items:center;padding-block:10px;flex-wrap:wrap}
+.bk-status{font-family:var(--f-label);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.bk-dot{width:9px;height:9px;border-radius:50%;background:var(--win)}
+.bk-dot.on{background:var(--plate)}
+.bkbar .btn{background:transparent;color:var(--poster-fg);border-color:var(--poster-2)}
+.bkbar .btn:hover{border-color:var(--poster-muted)}
+.bkbar .btn.primary{background:var(--plate);color:var(--plate-ink);border-color:var(--plate)}
+.bkbar .btn.armed{background:var(--red);border-color:var(--red);color:var(--poster-fg)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:4px;font-weight:600;width:max-content;max-width:calc(100% - 32px);box-shadow:var(--shadow)}
+.site-foot{padding-block:24px 30px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+<div id="app"></div>
+<script type="application/json" id="fed-data">{"rev":1,"settings":{"name":"Global Pro Wrestling","short":"GPW","tagline":"Wrestling without borders.","contact":"","deadline":"Promos for each show are due by Friday at 11:59 PM ET.","joinText":"Global Pro Wrestling is a fantasy wrestling league. Handlers request the wrestler they want to play, post promos in character on the GPW forum, and the booker writes the match results.\n\nHouse rules\n1. Request any wrestler you want to play. If someone already has them, the booker will check your second choice.\n2. Promos are due by Friday at 11:59 PM ET before each show.\n3. The booker writes results. Promo quality, activity and storylines all factor in.\n4. Stay in character in promos and keep it PG-13.\n5. One wrestler per handler to start.\n\nGPW is a fan-made fantasy league. It isn't affiliated with any wrestling company, and all results are fictional.","sample":false,"forumUrl":"https://thegpw.freeforums.net/"},"wrestlers":[{"id":"w1","name":"Cody Rhodes","nickname":"The American Nightmare","alignment":"Face","status":"Active","hometown":"Marietta, GA","height":"6'2\"","weight":"222 lbs","finisher":"Cross Rhodes","signature":"Disaster kick, Cody Cutter","theme":"","handler":"","bio":"Best known in WWE.","photo":"","hue":210},{"id":"w2","name":"Kevin Steen","nickname":"","alignment":"Heel","status":"Active","hometown":"Marieville, Quebec, Canada","height":"6'0\"","weight":"242 lbs","finisher":"Package piledriver","signature":"Powerbomb, cannonball senton","theme":"","handler":"","bio":"Best known on the indies and in ROH as Kevin Steen, and in WWE as Kevin Owens.","photo":"","hue":195},{"id":"w3","name":"CM Punk","nickname":"Best in the World","alignment":"Face","status":"Active","hometown":"Chicago, IL","height":"6'2\"","weight":"218 lbs","finisher":"GTS (Go to Sleep)","signature":"Anaconda Vise, Pepsi Plunge","theme":"","handler":"","bio":"Best known in WWE and AEW.","photo":"","hue":120},{"id":"w4","name":"Gunther","nickname":"The Ring General","alignment":"Heel","status":"Active","hometown":"Vienna, Austria","height":"6'4\"","weight":"250 lbs","finisher":"Powerbomb","signature":"Sleeper hold, knife-edge chops","theme":"","handler":"","bio":"Best known in WWE.","photo":"","hue":30},{"id":"w5","name":"Rhea Ripley","nickname":"Mami","alignment":"Face","status":"Active","hometown":"Adelaide, Australia","height":"5'7\"","weight":"","finisher":"Riptide","signature":"Headbutt, dropkick","theme":"","handler":"","bio":"Best known in WWE.","photo":"","hue":300},{"id":"w6","name":"Tiffany Stratton","nickname":"","alignment":"Heel","status":"Active","hometown":"Minneapolis, MN","height":"5'7\"","weight":"143 lbs","finisher":"Prettiest Moonsault Ever","signature":"Spear","theme":"","handler":"","bio":"Best known in WWE.","photo":"","hue":330},{"id":"w7","name":"Kenny Omega","nickname":"The Cleaner","alignment":"Face","status":"Active","hometown":"Winnipeg, Canada","height":"6'0\"","weight":"229 lbs","finisher":"One-Winged Angel","signature":"V-Trigger, Hadouken","theme":"","handler":"","bio":"Best known in AEW and NJPW.","photo":"","hue":190},{"id":"w8","name":"MJF","nickname":"The Salt of the Earth","alignment":"Heel","status":"Active","hometown":"Plainview, NY","height":"5'11\"","weight":"226 lbs","finisher":"Heatseeker","signature":"Salt of the Earth (armbar)","theme":"","handler":"","bio":"Best known in AEW.","photo":"","hue":20},{"id":"w9","name":"Will Ospreay","nickname":"","alignment":"Face","status":"Active","hometown":"Essex, England","height":"6'1\"","weight":"220 lbs","finisher":"Hidden Blade","signature":"Stormbreaker, OsCutter","theme":"","handler":"","bio":"Best known in AEW and NJPW.","photo":"","hue":250},{"id":"w10","name":"Swerve Strickland","nickname":"","alignment":"Face","status":"Active","hometown":"Tacoma, WA","height":"6'1\"","weight":"240 lbs","finisher":"House Call","signature":"Swerve Stomp","theme":"","handler":"","bio":"Best known in AEW.","photo":"","hue":270},{"id":"w11","name":"Toni Storm","nickname":"Timeless","alignment":"Tweener","status":"Active","hometown":"Gold Coast, Australia","height":"5'6\"","weight":"143 lbs","finisher":"Storm Zero","signature":"Hip attack","theme":"","handler":"","bio":"Best known in AEW.","photo":"","hue":50},{"id":"w12","name":"Mercedes Moné","nickname":"The CEO","alignment":"Heel","status":"Active","hometown":"Boston, MA","height":"5'5\"","weight":"114 lbs","finisher":"Moné Maker","signature":"Frog splash, Three Amigos","theme":"","handler":"","bio":"Best known in AEW and WWE.","photo":"","hue":350},{"id":"w13","name":"Moose","nickname":"","alignment":"Heel","status":"Active","hometown":"Seabrook, MD","height":"6'5\"","weight":"299 lbs","finisher":"Spear","signature":"","theme":"","handler":"","bio":"Best known in TNA.","photo":"","hue":15},{"id":"w14","name":"Masha Slamovich","nickname":"","alignment":"Heel","status":"Active","hometown":"Moscow, Russia","height":"5'3\"","weight":"137 lbs","finisher":"Snow Plow","signature":"","theme":"","handler":"","bio":"Best known in TNA.","photo":"","hue":230},{"id":"w15","name":"Zack Sabre Jr.","nickname":"ZSJ","alignment":"Heel","status":"Active","hometown":"Isle of Sheppey, England","height":"6'1\"","weight":"211 lbs","finisher":"Zack Driver","signature":"European Clutch, octopus stretch","theme":"","handler":"","bio":"Best known in NJPW.","photo":"","hue":160},{"id":"w16","name":"Shingo Takagi","nickname":"Rampage Dragon","alignment":"Face","status":"Active","hometown":"Yamanashi, Japan","height":"5'10\"","weight":"220 lbs","finisher":"Last of the Dragon","signature":"Pumping Bomber","theme":"","handler":"","bio":"Best known in NJPW.","photo":"","hue":10},{"id":"w17","name":"Matt Cardona","nickname":"","alignment":"Heel","status":"Active","hometown":"Long Island, NY","height":"6'2\"","weight":"224 lbs","finisher":"Radio Silence","signature":"Rough Ryder, Elbro Drop","theme":"","handler":"","bio":"Best known on the indies, formerly WWE.","photo":"","hue":280},{"id":"w18","name":"Effy","nickname":"","alignment":"Face","status":"Active","hometown":"","height":"","weight":"","finisher":"Second-rope flying legdrop","signature":"","theme":"","handler":"","bio":"Best known on the indies, including GCW.","photo":"","hue":320},{"id":"w19","name":"Mance Warner","nickname":"","alignment":"Tweener","status":"Active","hometown":"Bucksnort, TN","height":"6'1\"","weight":"215 lbs","finisher":"Southern Crossface","signature":"Lariat, piledriver, running knee","theme":"","handler":"","bio":"Best known on the indies, including MLW.","photo":"","hue":40},{"id":"w20","name":"Allie Katch","nickname":"One Thicc Kitten","alignment":"Face","status":"Active","hometown":"","height":"","weight":"","finisher":"Sit-out piledriver","signature":"Wristlock headbutt","theme":"","handler":"","bio":"Best known on the indies.","photo":"","hue":340}],"titles":[{"id":"t1","name":"GPW World Title","tier":"World","initial":[],"initialDate":"2026-11-02","about":"The top prize in GPW."},{"id":"t2","name":"GPW Women's Title","tier":"Women's","initial":[],"initialDate":"2026-11-02","about":""},{"id":"t3","name":"GPW Tag Team Title","tier":"Tag Team","initial":[],"initialDate":"2026-11-02","about":"Vacant until the tag team division arrives."},{"id":"t4","name":"GPW Continental Title","tier":"Secondary","initial":[],"initialDate":"2026-11-02","about":"The workhorse title. Defended every other week."}],"shows":[{"id":"s1","name":"GPW Overdrive #1","kind":"Weekly","date":"2026-11-02","venue":"2300 Arena · Philadelphia, PA","tagline":"The first episode of GPW Overdrive.","matches":[{"id":"m1","label":"Opener · GPW World Title tournament, first round","stip":"Singles","sides":[["w9"],["w16"]],"titleId":"","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""},{"id":"m2","label":"GPW Women's Title tournament, first round","stip":"Singles","sides":[["w5"],["w11"]],"titleId":"","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""},{"id":"m3","label":"GPW Continental Title tournament, first round","stip":"Singles","sides":[["w13"],["w19"]],"titleId":"","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""},{"id":"m4","label":"","stip":"Singles","sides":[["w17"],["w18"]],"titleId":"","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""},{"id":"m5","label":"GPW Women's Title tournament, first round","stip":"Singles","sides":[["w12"],["w20"]],"titleId":"","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""},{"id":"m6","label":"Main event · GPW World Title tournament, first round","stip":"Singles","sides":[["w1"],["w4"]],"titleId":"","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""}]},{"id":"s2","name":"Zero Hour","kind":"PPV","date":"2026-11-08","venue":"Madison Square Garden · New York, NY","tagline":"The clock runs out on November 8. The first pay-per-view in GPW history.","matches":[{"id":"m19","label":"GPW Continental Title tournament final","stip":"Singles","sides":[[],["w2"]],"tbd":["Winner of Moose vs Mance Warner",""],"titleId":"t4","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""},{"id":"m18","label":"GPW Women's Title tournament final","stip":"Singles","sides":[[],[]],"tbd":["Winner of Rhea Ripley vs Toni Storm","Winner of Mercedes Moné vs Allie Katch"],"titleId":"t2","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""},{"id":"m17","label":"Main event · GPW World Title tournament final","stip":"Singles","sides":[[],[]],"tbd":["Winner of Will Ospreay vs Shingo Takagi","Winner of Cody Rhodes vs Gunther"],"titleId":"t1","outcome":"","winner":null,"method":"","time":"","rating":null,"recap":"","thread":""}],"art":"clock","accent":"#E8283C"}],"promos":[],"news":[{"id":"n1","title":"Overdrive #1 card announced","date":"2026-10-26","body":"GPW Overdrive premieres Monday, November 2. Tournaments for the GPW World, Women's and Continental Titles start that night, with every final at Zero Hour on November 8.\n\nCody Rhodes and Gunther meet in the main event, and Kevin Steen enters the Continental Title tournament as a surprise entrant in the final."}],"tournaments":[{"id":"tw","titleId":"t1","name":"GPW World Title tournament","rounds":[["m1","m6"],["m17"]]},{"id":"tg","titleId":"t2","name":"GPW Women's Title tournament","rounds":[["m2","m5"],["m18"]]},{"id":"tc","titleId":"t4","name":"GPW Continental Title tournament","rounds":[["m3"],["m19"]],"note":"Kevin Steen enters in the final as a surprise entrant."}]}</script>
+<script id="fed-app">
+(function(){
+'use strict';
+
+/* ---------- constants ---------- */
+const RESET_FALLBACK = ':root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}';
+const FONT_LINK = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Big+Shoulders+Display:wght@700;800;900&display=swap">';
+const DRAFT_KEY = 'fed-draft-v1';
+const TABS = [['home','Home'],['roster','Roster'],['shows','Shows'],['titles','Titles'],['forums','Forums'],['rankings','Rankings'],['join','Join']];
+const STIPS = ['Singles','Tag Team','Triple Threat','Fatal 4-Way','Six-Man Tag','No Disqualification','Street Fight','Steel Cage','Ladder','Tables','Last Man Standing','Submission','Iron Man','Battle Royal'];
+const METHODS = ['Pinfall','Submission','Knockout','Disqualification','Count-out','Referee stoppage','Outside interference','Escape','Ladder retrieval'];
+const ALIGN = ['Face','Heel','Tweener'];
+const STATUS = ['Active','Injured','Inactive'];
+const KINDS = ['Weekly','PPV','Special'];
+const TIERS = ['World','Secondary','Tag Team',"Women's",'Other'];
+const APP_FIELDS = [['a-first','First choice'],['a-second','Second choice'],['a-handler','Your handler name'],['a-reach','Best way to reach you']];
+
+/* ---------- state ---------- */
+const appEl = document.getElementById('app');
+let state = normalize(readData());
+const origRev = state.rev;
+const origJSON = JSON.stringify(state);
+const LOCAL_BOOKER = !!document.querySelector('meta[name="gpw-mode"][content="booker"]');
+let dirty = false, booker = false, canWrite = false, writeUnknown = false, publishing = false, art = null;
+const ui = { align:'', q:'', pw:'', expanded:new Set(), discardArmed:false, clearArmed:false };
+let D = {};
+
+function readData(){ try { return JSON.parse(document.getElementById('fed-data').textContent); } catch(e){ return {}; } }
+function normalize(s){
+  s = (s && typeof s === 'object') ? s : {};
+  s.rev = +s.rev || 1;
+  s.settings = Object.assign({name:'My Wrestling Federation', short:'', tagline:'', contact:'', deadline:'', joinText:'', sample:false}, s.settings || {});
+  ['wrestlers','titles','shows','promos','news','tournaments'].forEach(k => { if (!Array.isArray(s[k])) s[k] = []; });
+  s.shows.forEach(sh => { if (!Array.isArray(sh.matches)) sh.matches = []; sh.matches.forEach(m => { if (!Array.isArray(m.sides)) m.sides = [[],[]]; if (!Array.isArray(m.tbd)) m.tbd = []; }); });
+  s.titles.forEach(t => { if (!Array.isArray(t.initial)) t.initial = []; });
+  return s;
+}
+
+/* ---------- helpers ---------- */
+const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone = x => JSON.parse(JSON.stringify(x));
+const pad = n => String(n).padStart(2,'0');
+const byName = (a,b) => (a.name||'').localeCompare(b.name||'');
+const byDateDesc = (a,b) => (b.date||'').localeCompare(a.date||'');
+function uid(p){ return p + Date.now().toString(36).slice(-5) + Math.random().toString(36).slice(2,6); }
+function today(){ const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+function parseD(iso){ const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||''); return m ? new Date(+m[1], +m[2]-1, +m[3]) : null; }
+function fmtDate(iso, opts){ const d = parseD(iso); if (!d) return iso ? String(iso) : 'Date to be announced'; return d.toLocaleDateString('en-US', opts || {weekday:'short', month:'short', day:'numeric', year:'numeric'}); }
+function daysBetween(a,b){ const x = parseD(a), y = parseD(b); if (!x || !y) return 0; return Math.round((Date.UTC(y.getFullYear(),y.getMonth(),y.getDate()) - Date.UTC(x.getFullYear(),x.getMonth(),x.getDate())) / 86400000); }
+function sameSet(a,b){ a = a || []; b = b || []; return a.length > 0 && a.length === b.length && a.every(x => b.includes(x)); }
+function upsert(arr, item){ const i = arr.findIndex(x => x.id === item.id); if (i >= 0) arr[i] = item; else arr.push(item); }
+function initials(name){ const p = String(name||'').trim().split(/\s+/).filter(Boolean); if (!p.length) return '?'; return (p[0][0] + (p.length > 1 ? p[p.length-1][0] : '')).toUpperCase(); }
+function paras(t){ return String(t||'').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean).map(p => '<p>' + esc(p).replace(/\n/g,'<br>') + '</p>').join(''); }
+function stars(r){
+  if (r === null || r === undefined || r === '') return '';
+  r = +r; if (!isFinite(r)) return '';
+  if (r <= 0) return 'DUD';
+  const full = Math.floor(r), frac = Math.round((r - full) * 4);
+  return '★'.repeat(full) + (['','¼','½','¾'][frac] || '');
+}
+function starsHTML(r){ const s = stars(r); return s ? `<span class="stars" title="${esc(r)} stars">${s}</span>` : ''; }
+function nameOf(id){ const w = D.w && D.w.get(id); return w ? w.name : 'Former wrestler'; }
+function plainNames(ids){ return esc((ids||[]).map(nameOf).join(' & ')); }
+function linkNames(ids){ return (ids||[]).map(id => D.w.get(id) ? `<a href="#w-${esc(id)}">${esc(nameOf(id))}</a>` : esc(nameOf(id))).join(' &amp; '); }
+function alignChip(a){ const k = String(a||'').toLowerCase(); return ALIGN.map(x=>x.toLowerCase()).includes(k) ? `<span class="align ${k}">${esc(a)}</span>` : ''; }
+function avatar(w, size){
+  if (!w) return `<span class="ava ${size} vacant" aria-hidden="true">?</span>`;
+  if (w.photo && /^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(w.photo)) return `<span class="ava ${size}"><img src="${w.photo}" alt=""></span>`;
+  return `<span class="ava ${size}" style="--h:${(+w.hue||0) % 360}" aria-hidden="true">${esc(initials(w.name))}</span>`;
+}
+function field(id, label, inner, hint){ return `<div class="fld"><label for="${id}">${esc(label)}</label>${inner}${hint ? `<p class="hint">${esc(hint)}</p>` : ''}</div>`; }
+function inp(id, val, attrs){ return `<input id="${id}" name="${id}" value="${esc(val)}" ${attrs||''}>`; }
+function sel(id, opts, val, attrs){ return `<select id="${id}" name="${id}" ${attrs||''}>${opts.map(o => { const v = Array.isArray(o) ? o[0] : o, l = Array.isArray(o) ? o[1] : o; return `<option value="${esc(v)}"${String(v) === String(val == null ? '' : val) ? ' selected' : ''}>${esc(l)}</option>`; }).join('')}</select>`; }
+function ta(id, val, rows){ return `<textarea id="${id}" name="${id}" rows="${rows||5}">${esc(val)}</textarea>`; }
+
+/* ---------- derived data ---------- */
+function derive(){
+  D = {};
+  D.w = new Map(state.wrestlers.map(w => [w.id, w]));
+  D.t = new Map(state.titles.map(t => [t.id, t]));
+  D.s = new Map(state.shows.map(s => [s.id, s]));
+  D.showsAsc = state.shows.slice().sort((a,b) => (a.date||'').localeCompare(b.date||''));
+  D.rec = new Map(); D.reigns = new Map(); D.holder = new Map(); D.before = new Map(); D.changes = new Set();
+  const R = id => { if (!D.rec.has(id)) D.rec.set(id, {w:0,l:0,d:0,nc:0,hist:[]}); return D.rec.get(id); };
+  state.wrestlers.forEach(w => R(w.id));
+  state.titles.forEach(t => {
+    const r = [];
+    if (t.initial && t.initial.length) r.push({holder:t.initial.slice(), start:t.initialDate||'', showId:null, matchId:null, defenses:0, end:null});
+    D.reigns.set(t.id, r);
+  });
+  for (const s of D.showsAsc){
+    (s.matches||[]).forEach(m => {
+      const t = m.titleId && D.t.get(m.titleId);
+      let cur = null;
+      if (t){ const r = D.reigns.get(t.id); cur = r.length ? r[r.length-1] : null; D.before.set(m.id, cur ? cur.holder.slice() : []); }
+      if (!m.outcome) return;
+      const sides = m.sides || [];
+      sides.forEach((side, i) => side.forEach(id => {
+        const rr = R(id);
+        const res = m.outcome === 'win' ? (i === m.winner ? 'W' : 'L') : (m.outcome === 'draw' ? 'D' : 'NC');
+        if (res === 'W') rr.w++; else if (res === 'L') rr.l++; else if (res === 'D') rr.d++; else rr.nc++;
+        rr.hist.push({show:s, match:m, res, side:i});
+      }));
+      if (t && m.outcome === 'win' && sides[m.winner] && sides[m.winner].length){
+        const win = sides[m.winner], r = D.reigns.get(t.id);
+        if (cur && sameSet(cur.holder, win)) cur.defenses++;
+        else { if (cur) cur.end = s.date; r.push({holder:win.slice(), start:s.date, showId:s.id, matchId:m.id, defenses:0, end:null}); D.changes.add(m.id); }
+      }
+    });
+  }
+  state.titles.forEach(t => { const r = D.reigns.get(t.id); D.holder.set(t.id, r.length ? r[r.length-1].holder : []); });
+}
+function etToUTC(y, mo, d, h, mi){
+  const guess = Date.UTC(y, mo - 1, d, h, mi);
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York', hourCycle:'h23', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'}).formatToParts(new Date(guess));
+    const g = t => +parts.find(x => x.type === t).value;
+    const wall = Date.UTC(g('year'), g('month') - 1, g('day'), g('hour') % 24, g('minute'));
+    return guess + (guess - wall);
+  } catch(e){ return guess + 5 * 3600000; }
+}
+function promoDue(s){
+  const ov = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(s.promoDue || '');
+  if (ov) return etToUTC(+ov[1], +ov[2], +ov[3], +ov[4], +ov[5]);
+  const sd = parseD(s.date); if (!sd) return null;
+  const back = ((sd.getDay() - 5 + 7) % 7) || 7;
+  const f = new Date(sd.getFullYear(), sd.getMonth(), sd.getDate() - back);
+  return etToUTC(f.getFullYear(), f.getMonth() + 1, f.getDate(), 23, 59);
+}
+function fmtDue(ms){
+  try { return new Date(ms).toLocaleString('en-US', {timeZone:'America/New_York', weekday:'long', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'}) + ' ET'; } catch(e){ return new Date(ms).toLocaleString(); }
+}
+function countdownText(ms){
+  const left = ms - Date.now();
+  if (left <= 0) return 'Deadline passed';
+  const dd = Math.floor(left / 86400000), hh = Math.floor(left % 86400000 / 3600000), mm = Math.floor(left % 3600000 / 60000);
+  return (dd ? dd + 'd ' : '') + hh + 'h ' + mm + 'm left';
+}
+function threadBtn(m, upcoming){
+  if (/^https:\/\/[^\s"<>]+$/.test(m.thread || '')) return `<a class="btn sm thread-btn" href="${esc(m.thread)}" target="_blank" rel="noopener noreferrer">${upcoming ? 'Promo thread' : 'Read the promos'} <span aria-hidden="true">↗</span></a>`;
+  return '';
+}
+function showStatus(s){
+  const ms = s.matches || [], decided = ms.filter(m => m.outcome).length;
+  if (ms.length && decided === ms.length) return 'done';
+  if ((s.date||'') >= today()) return 'upcoming';
+  return decided ? 'done' : 'pending';
+}
+function nextShow(){ return D.showsAsc.find(s => showStatus(s) === 'upcoming') || null; }
+function lastDone(){ const d = D.showsAsc.filter(s => showStatus(s) === 'done'); return d[d.length-1] || null; }
+function avgRating(s){
+  const r = (s.matches||[]).map(m => m.rating).filter(x => x !== null && x !== '' && x !== undefined && isFinite(+x)).map(Number);
+  return r.length ? Math.round(r.reduce((a,b) => a+b, 0) / r.length * 4) / 4 : null;
+}
+function rankings(){
+  return state.wrestlers.filter(w => w.status !== 'Inactive').map(w => {
+    const r = D.rec.get(w.id) || {w:0,l:0,d:0,nc:0,hist:[]}; const g = r.w + r.l + r.d;
+    return {w, r, g, pct: g ? r.w / g : 0};
+  }).sort((a,b) => (b.r.w - a.r.w) || (b.pct - a.pct) || (a.r.l - b.r.l) || byName(a.w, b.w));
+}
+function heldBy(id){ return state.titles.filter(t => (D.holder.get(t.id) || []).includes(id)); }
+function formChips(r){ return `<span class="form">${r.hist.slice(-5).map(h => `<span class="fm ${h.res}" title="${h.res === 'W' ? 'Win' : h.res === 'L' ? 'Loss' : h.res === 'D' ? 'Draw' : 'No contest'}: ${esc(h.show.name)}">${h.res}</span>`).join('')}</span>`; }
+function statusPill(s){
+  const st = showStatus(s);
+  if (st === 'done') return '<span class="pill done">Results</span>';
+  if (st === 'pending') return '<span class="pill pend">Awaiting results</span>';
+  if (s.date === today()) return '<span class="pill tonight">Tonight</span>';
+  return '<span class="pill up">Upcoming</span>';
+}
+
+/* ---------- views ---------- */
+let route = '';
+try { route = decodeURIComponent((location.hash || '').slice(1)); } catch(e){ route = ''; }
+function go(h){
+  route = h || 'home';
+  render();
+  try { window.scrollTo(0, 0); } catch(e){}
+  try { history.replaceState(null, '', '#' + route); } catch(e){}
+}
+function parseHash(){
+  const h = route;
+  if (h.startsWith('w-')) return {tab:'roster', wid:h.slice(2)};
+  if (h.startsWith('s-')) return {tab:'shows', sid:h.slice(2)};
+  if (h === 'promos') return {tab:'forums'};
+  if (TABS.some(t => t[0] === h)) return {tab:h};
+  return {tab:'home'};
+}
+function logoSVG(short){
+  return `<svg class="logo" viewBox="4 20 270 116" aria-hidden="true"><g transform="skewX(-14)"><rect x="42" y="70" width="50" height="8" style="fill:var(--red)"/><rect x="30" y="88" width="62" height="8" style="fill:var(--rope-mid)"/><rect x="48" y="106" width="44" height="8" style="fill:var(--blue)"/><text x="186" y="128" text-anchor="middle" font-size="96" letter-spacing="-1" style="fill:var(--fg);font-family:var(--f-display);font-weight:900">${esc(short)}</text></g><path d="M232 46 L250 28 L268 46" fill="none" stroke-width="7" stroke-linejoin="round" style="stroke:var(--plate)"/><path d="M232 62 L250 44 L268 62" fill="none" stroke-width="7" stroke-linejoin="round" stroke-opacity=".5" style="stroke:var(--plate)"/></svg>`;
+}
+function header(tab){
+  const st = state.settings;
+  const short = st.short || initials(st.name);
+  return `<header class="site">
+    <div class="wrap head-in">
+      <a class="brand" href="#home" aria-label="${esc(st.name)} home">${logoSVG(short)}<span class="brand-text"><span class="brand-name">${esc(st.name)}</span>${st.tagline ? `<span class="brand-tag">${esc(st.tagline)}</span>` : ''}</span></a>
+      ${canWrite ? `<button class="btn sm${booker ? ' on' : ''}" data-act="toggle-booker" aria-pressed="${booker}">${booker ? 'Booker mode on' : 'Booker mode'}</button>` : ''}
+    </div>
+    <div class="wrap"><nav class="tabs" aria-label="Sections">${TABS.map(([k,l]) => `<a class="tab" href="#${k}"${k === tab ? ' aria-current="page"' : ''}>${l}</a>`).join('')}</nav></div>
+    <div class="ropes" aria-hidden="true"></div>
+  </header>`;
+}
+function footer(){
+  const st = state.settings;
+  return `<footer class="wrap"><div class="site-foot"><span>${esc(st.name)} is a fan-made fantasy wrestling league. Results are fictional, and ${esc(st.short || st.name)} isn't affiliated with any wrestling company.${st.sample ? ' The roster and results shown now are sample content.' : ''}</span>${(!canWrite && writeUnknown && !booker) ? '<button class="linkish" data-act="try-booker">Booker mode</button>' : ''}</div></footer>`;
+}
+function sampleNotice(){
+  if (!booker || !state.settings.sample) return '';
+  return `<div class="notice"><p><strong>You're looking at sample content.</strong> The wrestlers, shows and promos are examples that show how everything fits together. Clear them before you share the site, or keep a few and edit them.</p><button class="btn sm" data-act="keep-sample">Keep it</button><button class="btn sm danger${ui.clearArmed ? ' armed' : ''}" data-act="clear-sample">${ui.clearArmed ? 'Tap again to clear everything' : 'Clear sample data'}</button></div>`;
+}
+function bar(){
+  if (LOCAL_BOOKER) return `<div class="bkbar" role="region" aria-label="Booker tools"><div class="wrap bk-in"><span class="bk-dot${dirty ? ' on' : ''}" aria-hidden="true"></span><span class="bk-status">${dirty ? 'Changes not uploaded yet' : 'No changes yet'}</span><span class="sp"></span><button class="btn sm" data-act="settings">Site settings</button><button class="btn sm" data-act="wix-code">Get Wix code</button><button class="btn sm" data-act="save-booker">Save booker file</button><button class="btn sm primary" data-act="site-file">Download site file</button></div></div>`;
+  const msg = publishing ? 'Publishing…' : dirty ? 'Unpublished changes' : 'Everything is published';
+  return `<div class="bkbar" role="region" aria-label="Booker tools"><div class="wrap bk-in"><span class="bk-dot${dirty ? ' on' : ''}" aria-hidden="true"></span><span class="bk-status">${msg}</span><span class="sp"></span><button class="btn sm" data-act="settings">Site settings</button>${(dirty && !publishing) ? `<button class="btn sm${ui.discardArmed ? ' armed' : ''}" data-act="discard">${ui.discardArmed ? 'Tap again to discard' : 'Discard'}</button>` : ''}<button class="btn sm primary" data-act="publish"${(!dirty || publishing) ? ' disabled' : ''}>Publish changes</button></div></div>`;
+}
+
+const PPV_ART = {
+  clock:{label:'Clock (countdown)', bg:'#070B1A', accent:'#E8283C'},
+  cage:{label:'Steel cage', bg:'#0C0E12', accent:'#9FB3C8'},
+  fire:{label:'Inferno', bg:'#140604', accent:'#FF7A1A'},
+  lightning:{label:'Lightning', bg:'#0B0820', accent:'#8E7CFF'},
+  rays:{label:'Gold rays', bg:'#120E04', accent:'#E8B730'},
+  stripes:{label:'Rope stripes', bg:'#06080C', accent:'#D8AC43'}
+};
+function ppvArt(kind){
+  if (kind === 'clock'){
+    let ticks = '';
+    for (let i = 0; i < 60; i++){
+      const ang = i * 6 * Math.PI / 180, r1 = i % 5 ? 84 : 74, r2 = 90;
+      ticks += `<line x1="${(100 + r1 * Math.sin(ang)).toFixed(1)}" y1="${(100 - r1 * Math.cos(ang)).toFixed(1)}" x2="${(100 + r2 * Math.sin(ang)).toFixed(1)}" y2="${(100 - r2 * Math.cos(ang)).toFixed(1)}" stroke-width="${i % 5 ? 1.2 : 3.2}"/>`;
+    }
+    return `<svg class="pp-svg" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="97" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="2"/><g stroke="currentColor" stroke-opacity=".7">${ticks}</g><line x1="100" y1="100" x2="96" y2="46" stroke="#F2F3F6" stroke-width="6" stroke-linecap="round"/><line x1="100" y1="100" x2="98" y2="20" stroke="#F2F3F6" stroke-width="3.5" stroke-linecap="round"/><line x1="100" y1="114" x2="100" y2="14" stroke="currentColor" stroke-width="1.8"/><circle cx="100" cy="100" r="6" fill="currentColor"/></svg>`;
+  }
+  if (kind === 'lightning') return `<svg class="pp-svg" viewBox="0 0 200 200" aria-hidden="true"><path d="M124 4 L60 110 L98 110 L74 196 L150 78 L108 78 Z" fill="currentColor" fill-opacity=".9"/><path d="M52 30 L28 78 L44 78 L34 116 L66 66 L50 66 Z" fill="currentColor" fill-opacity=".35"/><path d="M176 96 L156 136 L168 136 L160 168 L186 126 L174 126 Z" fill="currentColor" fill-opacity=".35"/></svg>`;
+  return '';
+}
+function venueLine(s){
+  if (!s.venue) return '<p class="poster-venue tba">Arena to be announced</p>';
+  const parts = String(s.venue).split(' · ');
+  return `<p class="poster-venue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg><span><span class="pv-arena">${esc(parts[0])}</span>${parts[1] ? `<span class="pv-city">${esc(parts.slice(1).join(' · '))}</span>` : ''}</span></p>`;
+}
+function overdriveTitle(name){
+  const ep = (/#\s*(\d+)/.exec(name) || [])[1];
+  return `<h1 class="od-head"><span class="sr-only">${esc(name)}</span><svg class="od-logo" viewBox="40 30 220 150" aria-hidden="true">
+    <path d="M70 120 A80 80 0 0 1 230 120" fill="none" stroke="var(--poster-2)" stroke-width="10"/>
+    <path d="M70 120 A80 80 0 0 1 197 55" fill="none" stroke="var(--poster-fg)" stroke-opacity=".8" stroke-width="10" stroke-dasharray="2 9"/>
+    <path d="M197 55 A80 80 0 0 1 230 120" fill="none" stroke="#E8283C" stroke-width="10"/>
+    <line x1="150" y1="120" x2="222" y2="78" stroke="#E8283C" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="150" cy="120" r="8" fill="var(--poster-fg)"/>
+    <text x="150" y="104" text-anchor="middle" font-size="12" letter-spacing="3" style="fill:var(--plate);font-family:var(--f-label);font-weight:700">${esc(state.settings.short || initials(state.settings.name))}</text>
+    <text x="150" y="168" text-anchor="middle" font-size="50" textLength="212" lengthAdjust="spacingAndGlyphs" style="fill:var(--poster-fg);font-family:var(--f-display);font-weight:900">OVERDRIVE</text>
+  </svg>${ep ? `<span class="od-ep" aria-hidden="true">#${esc(ep)}</span>` : ''}</h1>`;
+}
+function ppTheme(s){
+  const key = PPV_ART[s.art] ? s.art : 'stripes', P = PPV_ART[key];
+  return {key, bg:P.bg, acc: /^#[0-9a-f]{6}$/i.test(s.accent || '') ? s.accent : P.accent};
+}
+function mainBlock(main){
+  if (!main) return '';
+  const sides = sideSlots(main);
+  if (!sides.length) return '';
+  const mt = main.titleId && D.t.get(main.titleId), before = D.before.get(main.id) || [];
+  return `<div class="pm"><span class="pm-label">${esc(main.label || 'Main event')}</span><p class="pm-vs">${sides.map(x => `<span${x.sd.length ? '' : ' class="pm-tbd"'}>${slotPlain(x)}${mt && x.sd.length && sameSet(x.sd, before) ? ' <span class="pm-c">(c)</span>' : ''}</span>`).join('<span class="vs">vs</span>')}</p></div>`;
+}
+function ppvPoster(s, detail){
+  const st = showStatus(s), t = today(), ms = s.matches || [];
+  const key = PPV_ART[s.art] ? s.art : 'stripes', P = PPV_ART[key];
+  const acc = /^#[0-9a-f]{6}$/i.test(s.accent || '') ? s.accent : P.accent;
+  const dd = daysBetween(t, s.date);
+  const count = st === 'upcoming'
+    ? (s.date === t ? '<div class="pp-count"><span class="pp-num">Tonight</span></div>' : `<div class="pp-count"><span class="pp-num">${dd}</span><span class="pp-unit">day${dd === 1 ? '' : 's'} to go</span></div>`)
+    : `<div class="pp-count"><span class="pp-unit">${st === 'done' ? 'Results are in' : 'Results coming soon'}</span></div>`;
+  return `<section class="poster ppvx" style="--pp-bg:${P.bg};--pp-accent:${acc}"><div class="pp-art ${key}" aria-hidden="true">${ppvArt(key)}</div><div class="poster-in">
+    <div class="poster-top"><span class="kind">Pay-per-view</span></div>
+    <h1 class="poster-name">${esc(s.name)}</h1>
+    ${count}
+    <p class="poster-meta">${esc(fmtDate(s.date, {weekday:'long', month:'long', day:'numeric', year:'numeric'}))}</p>
+    ${venueLine(s)}
+    ${s.tagline ? `<p class="poster-tag">${esc(s.tagline)}</p>` : ''}
+    ${mainBlock(ms[ms.length-1])}
+    ${detail ? '' : `<a class="btn primary" href="#s-${esc(s.id)}">${st === 'done' ? 'Read the results' : 'See the full card'}</a>`}
+  </div></section>`;
+}
+function poster(s, detail){
+  if (s.kind === 'PPV') return ppvPoster(s, detail);
+  const st = showStatus(s), t = today(), ms = s.matches || [];
+  const dd = daysBetween(t, s.date);
+  const eyebrow = st === 'done' ? 'Results are in' : st === 'pending' ? 'Results coming soon' : s.date === t ? 'Tonight' : dd === 1 ? 'Tomorrow' : `In ${dd} days`;
+  return `<section class="poster"><div class="poster-in">
+    <div class="poster-top"><span class="kind">${esc(s.kind || 'Show')}</span><span class="eyebrow">${esc(eyebrow)}</span></div>
+    ${/overdrive/i.test(s.name) ? overdriveTitle(s.name) : `<h1 class="poster-name">${esc(s.name)}</h1>`}
+    <p class="poster-meta">${esc(fmtDate(s.date, {weekday:'long', month:'long', day:'numeric', year:'numeric'}))}</p>
+    ${venueLine(s)}
+    ${s.tagline ? `<p class="poster-tag">${esc(s.tagline)}</p>` : ''}
+    ${mainBlock(ms[ms.length-1])}
+    ${detail ? '' : `<a class="btn primary" href="#s-${esc(s.id)}">${st === 'done' ? 'Read the results' : 'See the full card'}</a>`}
+  </div></section>`;
+}
+function champTile(t){
+  const r = D.reigns.get(t.id) || [], cur = r[r.length-1], h = cur ? cur.holder : [];
+  const days = cur ? Math.max(0, daysBetween(cur.start, today())) : 0;
+  return `<a class="champ" href="#titles">${h.length ? avatar(D.w.get(h[0]), 'md') : '<span class="ava md vacant" aria-hidden="true">–</span>'}<span class="champ-body"><span class="plate">${esc(t.name)}</span><span class="champ-name">${h.length ? plainNames(h) : 'Vacant'}</span>${h.length ? `<span class="champ-sub">${days} day${days === 1 ? '' : 's'} · ${cur.defenses} defense${cur.defenses === 1 ? '' : 's'}</span>` : ''}</span></a>`;
+}
+function resultText(m){
+  const sides = (m.sides||[]).filter(x => x.length);
+  if (m.outcome === 'win'){
+    const win = m.sides[m.winner] || [], losers = m.sides.filter((x,i) => i !== m.winner && x.length);
+    return `<strong>${linkNames(win)}</strong> def. ${losers.map(linkNames).join(', ')}${m.method ? ` via ${esc(m.method)}` : ''}`;
+  }
+  const vs = sides.map(linkNames).join(' vs ');
+  if (m.outcome === 'draw') return `${vs} · Draw`;
+  if (m.outcome === 'nc') return `${vs} · No contest`;
+  return `${vs} · <em>Pending</em>`;
+}
+function resLine(m){
+  const t = m.titleId && D.t.get(m.titleId);
+  return `<li><div class="rl-main"><span class="rl-meta"><span class="m-stip">${esc(m.stip || 'Singles')}</span>${t ? `<span class="plate">${esc(t.name)}</span>` : ''}${D.changes.has(m.id) ? '<span class="newchamp">New champion</span>' : ''}</span><span class="rl-text">${resultText(m)}</span></div>${starsHTML(m.rating)}</li>`;
+}
+function miniPromo(p){
+  const w = D.w.get(p.wrestlerId), body = String(p.body||'').replace(/\s+/g,' ').trim();
+  return `<a class="mini-promo" href="#promos"><span class="mp-title">${esc(p.title || 'Untitled promo')}</span><span class="mp-who">${esc(w ? w.name : 'Former wrestler')} · ${esc(fmtDate(p.date, {month:'short', day:'numeric'}))}</span><span class="mp-excerpt">${esc(body.length > 150 ? body.slice(0,147).replace(/\s+\S*$/,'') + '…' : body)}</span></a>`;
+}
+
+function newsItem(n){
+  return `<article class="news-item"><div class="ni-top"><span class="lbl">${esc(fmtDate(n.date, {month:'short', day:'numeric', year:'numeric'}))}</span>${booker ? `<button class="btn sm" data-act="edit-news" data-id="${esc(n.id)}">Edit</button>` : ''}</div><h3 class="ni-title">${esc(n.title)}</h3>${n.body ? `<div class="prose ni-body">${paras(n.body)}</div>` : ''}</article>`;
+}
+function viewHome(){
+  const next = nextShow(), last = lastDone();
+  const hero = next ? poster(next) : last ? poster(last) : `<section class="poster"><div class="poster-in"><div class="poster-top"><span class="kind">Coming soon</span></div><h1 class="poster-name">${esc(state.settings.name)}</h1><p class="poster-meta">The first card hasn't been announced yet.</p>${booker ? '<button class="btn primary" data-act="add-show">Book the first show</button>' : ''}</div></section>`;
+  const champs = state.titles.length ? `<div class="champ-grid">${state.titles.map(champTile).join('')}</div>` : `<p class="empty">No championships yet.${booker ? ' Add them on the Titles page.' : ''}</p>`;
+  const results = last
+    ? `<section class="sec"><div class="sec-head"><h2>Latest results</h2><a class="more" href="#s-${esc(last.id)}">${esc(last.name)}</a></div><ul class="res-list">${last.matches.map(resLine).join('')}</ul></section>`
+    : `<section class="sec"><h2>Latest results</h2><p class="empty">Results appear here after the first show.</p></section>`;
+  const top = rankings().slice(0,5);
+  const rank = `<section class="sec"><div class="sec-head"><h2>Top 5</h2><a class="more" href="#rankings">Full rankings</a></div>${top.length ? `<ol class="top5">${top.map((x,i) => `<li><span class="t5-n">${i+1}</span><a href="#w-${esc(x.w.id)}">${esc(x.w.name)}</a><span class="rec">${x.r.w}–${x.r.l}–${x.r.d}</span></li>`).join('')}</ol>` : '<p class="empty">No wrestlers yet.</p>'}</section>`;
+  const nw = state.news.slice().sort(byDateDesc).slice(0,4);
+  const news = `<section class="sec"><div class="sec-head"><h2>News</h2>${booker ? '<button class="btn sm" data-act="add-news">Post news</button>' : ''}</div>${nw.length ? `<div class="news-list">${nw.map(newsItem).join('')}</div>` : `<p class="empty">No news yet.${booker ? ' Post an announcement to get started.' : ''}</p>`}</section>`;
+  return `${hero}<section class="sec"><div class="sec-head"><h2>Champions</h2><a class="more" href="#titles">Title histories</a></div>${champs}</section><div class="cols">${results}<div class="stack">${news}${rank}</div></div>`;
+}
+
+function wCard(w){
+  const r = D.rec.get(w.id) || {w:0,l:0,d:0};
+  const held = heldBy(w.id);
+  return `<a class="wcard" href="#w-${esc(w.id)}">${avatar(w,'lg')}<span class="wc-body"><span class="wc-name">${esc(w.name)}</span>${w.nickname ? `<span class="wc-nick">“${esc(w.nickname)}”</span>` : ''}<span class="wc-row"><span class="rec">${r.w}–${r.l}–${r.d}</span></span>${held.map(t => `<span class="plate">${esc(t.name)}</span>`).join('')}${w.status && w.status !== 'Active' ? `<span class="wc-status">${esc(w.status)}</span>` : ''}</span></a>`;
+}
+function rosterCards(){
+  const q = (ui.q||'').trim().toLowerCase();
+  const list = state.wrestlers.filter(w => (!ui.align || w.alignment === ui.align) && (!q || [w.name, w.nickname, w.hometown, w.handler].join(' ').toLowerCase().includes(q))).sort(byName);
+  if (!list.length) return `<p class="empty">${state.wrestlers.length ? 'No wrestlers match that search.' : booker ? 'No wrestlers yet. Add the first one.' : 'The roster is being built. Check back soon.'}</p>`;
+  return list.map(wCard).join('');
+}
+function viewRoster(){
+  return `<section class="sec"><div class="sec-head"><h1 class="page-title">Roster</h1>${booker ? '<button class="btn primary" data-act="add-wrestler">Add wrestler</button>' : ''}</div>
+    <div class="filters"><input class="search" id="roster-q" type="search" placeholder="Search by name, nickname or hometown" aria-label="Search the roster" value="${esc(ui.q)}"></div>
+    <div class="roster-grid" id="roster-grid">${rosterCards()}</div></section>`;
+}
+function histRow(h, id){
+  const m = h.match, s = h.show, t = m.titleId && D.t.get(m.titleId);
+  const opp = m.sides.filter((x,i) => i !== h.side && x.length).map(linkNames).join(', ');
+  const partners = (m.sides[h.side] || []).filter(x => x !== id);
+  return `<li><span class="fm ${h.res}">${h.res}</span><div class="h-body"><span class="h-line">vs ${opp || 'TBA'}${partners.length ? ` <span class="h-with">with ${linkNames(partners)}</span>` : ''}</span><span class="h-sub"><a href="#s-${esc(s.id)}">${esc(s.name)}</a> · ${esc(fmtDate(s.date, {month:'short', day:'numeric'}))}${m.method ? ` · ${esc(m.method)}` : ''}${t ? ` · ${esc(t.name)}` : ''}${D.changes.has(m.id) && h.res === 'W' ? ' · <strong class="won-title">Won the title</strong>' : ''}</span></div>${starsHTML(m.rating) || '<span></span>'}</li>`;
+}
+function viewWrestler(id){
+  const w = D.w.get(id);
+  if (!w) return notFound('That wrestler', 'roster', 'Roster');
+  const r = D.rec.get(id) || {w:0,l:0,d:0,nc:0,hist:[]}, g = r.w + r.l + r.d;
+  const held = heldBy(id);
+  const upcoming = [];
+  D.showsAsc.forEach(s => { if (showStatus(s) === 'upcoming') s.matches.forEach(m => { if (m.sides.some(sd => sd.includes(id))) upcoming.push({s, m}); }); });
+  const promos = state.promos.filter(p => p.wrestlerId === id).sort(byDateDesc);
+  const tape = [['Hometown', w.hometown], ['Height', w.height], ['Weight', w.weight], ['Finisher', w.finisher], ['Signature moves', w.signature], ['Entrance theme', w.theme], ['Handler', w.handler]].filter(x => x[1]);
+  const reigns = [];
+  state.titles.forEach(t => (D.reigns.get(t.id) || []).forEach(rg => { if (rg.holder.includes(id)) reigns.push({t, rg}); }));
+  reigns.sort((a,b) => (b.rg.start||'').localeCompare(a.rg.start||''));
+  const up = upcoming.length ? `<div class="upnext"><span class="lbl">Next up</span>${upcoming.map(({s,m}) => { const sd = m.sides.findIndex(x => x.includes(id)); const opp = sideSlots(m).filter(x => x.i !== sd).map(slotPlain).join(', '); const t = m.titleId && D.t.get(m.titleId); return `<a class="up-row" href="#s-${esc(s.id)}"><span class="h-line">vs ${opp || 'opponent to be announced'}</span><span class="up-sub">${esc(s.name)} · ${esc(fmtDate(s.date, {month:'short', day:'numeric'}))}${t ? ` · ${esc(t.name)}` : ''}</span></a>`; }).join('')}</div>` : '';
+  return `<a class="back" href="#roster">← Roster</a>
+  <section class="profile"><div class="pf-media">${avatar(w,'xl')}${w.photo && w.photoCredit ? `<p class="hint pf-credit">Photo: ${esc(w.photoCredit)}</p>` : ''}</div><div class="pf-main">
+    <div class="pf-tags">${alignChip(w.alignment)}${w.status && w.status !== 'Active' ? `<span class="pill pend">${esc(w.status)}</span>` : ''}</div>
+    <h1 class="pf-name">${esc(w.name)}</h1>
+    ${w.nickname ? `<p class="pf-nick">“${esc(w.nickname)}”</p>` : ''}
+    <div class="pf-record"><span class="big">${r.w}–${r.l}–${r.d}</span><span class="lbl">Wins–losses–draws${r.nc ? ` · ${r.nc} no contest${r.nc === 1 ? '' : 's'}` : ''}${g ? ` · ${Math.round(r.w / g * 100)}% wins` : ''}</span></div>
+    ${r.hist.length ? `<div class="pf-form"><span class="lbl">Last 5</span>${formChips(r)}</div>` : ''}
+    ${held.length ? `<div class="pf-held">${held.map(t => `<span class="plate">${esc(t.name)}</span>`).join('')}</div>` : ''}
+    ${booker ? `<div><button class="btn sm" data-act="edit-wrestler" data-id="${esc(id)}">Edit wrestler</button></div>` : ''}
+  </div></section>
+  <div class="cols">
+    <section class="sec"><h2>Match history</h2>${up}${r.hist.length ? `<ul class="hist">${r.hist.slice().reverse().map(h => histRow(h, id)).join('')}</ul>` : '<p class="empty">No matches on record yet.</p>'}</section>
+    <div class="stack">
+      <section class="sec"><h2>Tale of the tape</h2>${tape.length ? `<dl class="tape">${tape.map(([k,v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : '<p class="empty">No stats yet.</p>'}${w.bio ? `<div class="prose">${paras(w.bio)}</div>` : ''}</section>
+      ${reigns.length ? `<section class="sec"><h2>Title reigns</h2><ul class="reigns">${reigns.map(({t, rg}) => { const d = Math.max(0, daysBetween(rg.start, rg.end || today())); return `<li><span class="plate">${esc(t.name)}</span><span class="h-sub">${esc(fmtDate(rg.start, {month:'short', day:'numeric', year:'numeric'}))} to ${rg.end ? esc(fmtDate(rg.end, {month:'short', day:'numeric', year:'numeric'})) : 'present'} · ${d} days · ${rg.defenses} defense${rg.defenses === 1 ? '' : 's'}</span></li>`; }).join('')}</ul></section>` : ''}
+    </div>
+  </div>
+`;
+}
+
+function showRow(s){
+  const d = parseD(s.date), n = (s.matches||[]).length, avg = avgRating(s);
+  return `<a class="srow" href="#s-${esc(s.id)}"><span class="cal" aria-hidden="true"><span class="c-dow">${d ? d.toLocaleDateString('en-US',{weekday:'short'}) : 'TBA'}</span><span class="c-day">${d ? d.getDate() : '–'}</span><span class="c-mon">${d ? d.toLocaleDateString('en-US',{month:'short'}) : ''}</span></span><span class="sr-body"><span class="sr-name">${esc(s.name)}</span><span class="sr-meta">${esc(s.kind || 'Show')} · ${esc(fmtDate(s.date, {month:'short', day:'numeric', year:'numeric'}))}${s.venue ? ` · ${esc(s.venue)}` : ''}</span><span class="sr-meta">${n} match${n === 1 ? '' : 'es'}${avg !== null ? ` · show average ${starsHTML(avg)}` : ''}</span></span>${statusPill(s)}</a>`;
+}
+function viewShows(){
+  const up = D.showsAsc.filter(s => showStatus(s) === 'upcoming');
+  const past = D.showsAsc.filter(s => showStatus(s) !== 'upcoming').reverse();
+  return `<section class="sec"><div class="sec-head"><h1 class="page-title">Shows</h1>${booker ? '<button class="btn primary" data-act="add-show">Book a show</button>' : ''}</div></section>
+  <section class="sec"><h2>Upcoming</h2>${up.length ? `<div class="srows">${up.map(showRow).join('')}</div>` : `<p class="empty">Nothing booked yet.${booker ? ' Book a show to announce the next card.' : ''}</p>`}</section>
+  <section class="sec"><h2>Results</h2>${past.length ? `<div class="srows">${past.map(showRow).join('')}</div>` : '<p class="empty">No results yet.</p>'}</section>`;
+}
+function sideSlots(m){
+  return (m.sides||[]).map((sd, i) => ({sd, i, tbd: (m.tbd||[])[i] || ''})).filter(x => x.sd.length || x.tbd);
+}
+function slotPlain(x){ return x.sd.length ? plainNames(x.sd) : esc(x.tbd); }
+function vsGraphic(m, t, before, pp){
+  const sides = sideSlots(m);
+  if (!sides.length) return '<p class="m-res pending">Participants to be announced</p>';
+  return `<div class="vsg${sides.length > 2 ? ' multi' : ''}${pp ? ' ppv' : ''}"${pp ? ` style="--pp-bg:${pp.bg};--pp-accent:${pp.acc}"` : ''}>${pp ? `<div class="pp-art vs-art ${pp.key}" aria-hidden="true">${ppvArt(pp.key)}</div>` : ''}${sides.map(({sd, i, tbd}) => {
+    if (!sd.length) return `<div class="vs-side tbd"><div class="vs-avas"><span class="ava vs vacant" aria-hidden="true">?</span></div><div class="vs-names">${esc(tbd)}</div></div>`;
+    const cls = m.outcome === 'win' ? (i === m.winner ? 'won' : 'lost') : '';
+    return `<div class="vs-side ${cls}"><div class="vs-avas">${sd.map(id => avatar(D.w.get(id), 'vs')).join('')}</div><div class="vs-names">${linkNames(sd)}${t && sameSet(sd, before) ? '<abbr class="c" title="Champion going in">(c)</abbr>' : ''}</div>${cls === 'won' ? '<span class="plate">Winner</span>' : ''}</div>`;
+  }).join('<div class="vs-mid" aria-hidden="true">VS</div>')}</div>`;
+}
+function matchHTML(m, s){
+  const t = m.titleId && D.t.get(m.titleId);
+  const before = D.before.get(m.id) || [];
+  const sides = (m.sides||[]).map((sd, i) => ({sd, i})).filter(x => x.sd.length);
+  const sidesHTML = sides.map(({sd, i}) => {
+    const cls = m.outcome === 'win' ? (i === m.winner ? 'won' : 'lost') : '';
+    return `<span class="side ${cls}">${linkNames(sd)}${t && sameSet(sd, before) ? '<abbr class="c" title="Champion going in">(c)</abbr>' : ''}</span>`;
+  }).join('<span class="vs">vs</span>');
+  let res;
+  if (m.outcome === 'win'){
+    const win = m.sides[m.winner] || [], losers = m.sides.filter((x,i) => i !== m.winner && x.length);
+    res = `<p class="m-res"><strong>${plainNames(win)}</strong> def. ${losers.map(plainNames).join(', ')}${m.method ? ` via ${esc(m.method)}` : ''}${m.time ? ` <span class="m-time">· ${esc(m.time)}</span>` : ''}</p>`;
+  } else if (m.outcome === 'draw'){
+    res = `<p class="m-res">Draw${m.method ? ` · ${esc(m.method)}` : ''}${m.time ? ` <span class="m-time">· ${esc(m.time)}</span>` : ''}</p>`;
+  } else if (m.outcome === 'nc'){
+    res = `<p class="m-res">No contest${m.method ? ` · ${esc(m.method)}` : ''}${m.time ? ` <span class="m-time">· ${esc(m.time)}</span>` : ''}</p>`;
+  } else {
+    res = `<p class="m-res pending">${(s.date||'') >= today() ? 'Result pending' : 'No result posted yet'}</p>`;
+  }
+  const change = D.changes.has(m.id);
+  return `<article class="match${change ? ' changed' : ''}">
+    <div class="m-meta">${m.label ? `<span class="m-label">${esc(m.label)}</span>` : ''}<span class="m-stip">${esc(m.stip || 'Singles')}</span>${t ? `<span class="plate">${esc(t.name)}</span>` : ''}${change ? '<span class="newchamp">New champion</span>' : ''}</div>
+    ${vsGraphic(m, t, before, s && s.kind === 'PPV' ? ppTheme(s) : null)}
+    <div class="m-foot">${res}${starsHTML(m.rating)}</div>
+    ${(() => { const b = threadBtn(m, !m.outcome && (s.date || '') >= today()); return b ? `<div class="m-actions">${b}</div>` : ''; })()}
+    ${m.recap ? `<p class="m-recap">${esc(m.recap)}</p>` : ''}
+  </article>`;
+}
+function viewShow(id){
+  const s = D.s.get(id);
+  if (!s) return notFound('That show', 'shows', 'Shows');
+  const ms = s.matches || [], avg = avgRating(s);
+  const promos = state.promos.filter(p => p.showId === s.id).sort(byDateDesc);
+  return `<a class="back" href="#shows">← All shows</a>${poster(s, true)}
+  <section class="sec"><div class="sec-head"><h2>${showStatus(s) === 'done' ? 'Results' : 'The card'}</h2>${avg !== null ? `<span class="lbl">Show average ${starsHTML(avg)}</span>` : ''}${booker ? `<button class="btn sm" data-act="edit-show" data-id="${esc(s.id)}">${showStatus(s) === 'done' ? 'Edit show' : 'Edit card or post results'}</button>` : ''}</div>
+  ${ms.length ? `<div class="card-list">${ms.map(m => matchHTML(m, s)).join('')}</div>` : '<p class="empty">No matches announced yet.</p>'}</section>
+`;
+}
+
+function titleCard(t){
+  const reigns = D.reigns.get(t.id) || [], cur = reigns[reigns.length-1], holder = cur ? cur.holder : [];
+  const days = cur ? Math.max(0, daysBetween(cur.start, today())) : 0;
+  const rows = reigns.map((r, i) => {
+    const sh = r.showId && D.s.get(r.showId), d = Math.max(0, daysBetween(r.start, r.end || today()));
+    return `<tr><td class="num">${i+1}</td><td>${linkNames(r.holder)}</td><td>${sh ? `<a href="#s-${esc(sh.id)}">${esc(sh.name)}</a>` : 'Inaugural champion'}</td><td>${esc(fmtDate(r.start, {month:'short', day:'numeric', year:'numeric'}))}</td><td class="num">${d}${r.end ? '' : '+'}</td><td class="num">${r.defenses}</td></tr>`;
+  }).reverse().join('');
+  return `<section class="tcard">
+    <div class="tc-head"><div class="tc-name">${t.tier ? `<span class="tier">${esc(t.tier)}</span>` : ''}<h2>${esc(t.name)}</h2>${t.about ? `<p class="tc-about">${esc(t.about)}</p>` : ''}</div>${booker ? `<button class="btn sm" data-act="edit-title" data-id="${esc(t.id)}">Edit</button>` : ''}</div>
+    <div class="tc-champ">${holder.length ? `${avatar(D.w.get(holder[0]), 'md')}<div class="tc-cb"><span class="lbl">Current champion${holder.length > 1 ? 's' : ''}</span><span class="tc-who">${linkNames(holder)}</span><span class="champ-sub">${days} day${days === 1 ? '' : 's'} · ${cur.defenses} successful defense${cur.defenses === 1 ? '' : 's'}</span></div>` : `<span class="ava md vacant" aria-hidden="true">–</span><div class="tc-cb"><span class="lbl">Current champion</span><span class="tc-who">Vacant</span></div>`}</div>
+    ${reigns.length ? `<div class="tbl-wrap"><table><thead><tr><th class="num">Reign</th><th>Champion</th><th>Won at</th><th>Date</th><th class="num">Days</th><th class="num">Defenses</th></tr></thead><tbody>${rows}</tbody></table></div>` : ''}
+  </section>`;
+}
+function bracketMatch(mid){
+  let m = null, sh = null;
+  for (const s of state.shows){ const x = (s.matches||[]).find(y => y.id === mid); if (x){ m = x; sh = s; break; } }
+  if (!m) return '<div class="bm"><div class="bm-row tbd">Match removed</div></div>';
+  const rows = (m.sides||[]).map((sd, i) => ({sd, i, tbd:(m.tbd||[])[i] || ''})).filter(x => x.sd.length || x.tbd).map(x => {
+    const won = m.outcome === 'win' && m.winner === x.i, lost = m.outcome === 'win' && m.winner !== x.i;
+    return `<div class="bm-row${won ? ' won' : ''}${lost ? ' lost' : ''}${x.sd.length ? '' : ' tbd'}"><span>${x.sd.length ? plainNames(x.sd) : esc(x.tbd)}</span>${won ? '<span class="bm-adv">Win</span>' : ''}</div>`;
+  }).join('');
+  return `<a class="bm" href="#s-${esc(sh.id)}">${rows || '<div class="bm-row tbd">To be announced</div>'}<span class="bm-show">${esc(sh.name)} · ${esc(fmtDate(sh.date, {month:'short', day:'numeric'}))}</span></a>`;
+}
+function bracketHTML(tn){
+  const rounds = tn.rounds || [];
+  const names = rounds.map((r, i) => i === rounds.length - 1 ? 'Final' : rounds.length - i === 2 ? (r.length > 1 ? 'Semifinals' : 'First round') : 'Round ' + (i+1));
+  const finalId = rounds.length ? rounds[rounds.length-1][0] : null;
+  let champ = '';
+  for (const s of state.shows){ const fmm = (s.matches||[]).find(y => y.id === finalId); if (fmm && fmm.outcome === 'win') champ = plainNames(fmm.sides[fmm.winner] || []); }
+  return `<section class="tourney panel pad"><div class="sec-head"><h2>${esc(tn.name)}</h2></div>${tn.note ? `<p class="hint">${esc(tn.note)}</p>` : ''}
+    <div class="bracket-wrap"><div class="bracket" style="--cols:${rounds.length + 1}">
+      ${rounds.map((r, i) => `<div class="b-col"><span class="lbl">${names[i]}</span><div class="b-list">${r.map(bracketMatch).join('')}</div></div>`).join('')}
+      <div class="b-col"><span class="lbl">Champion</span><div class="b-list"><div class="b-champ${champ ? ' crowned' : ''}"><span class="plate">${esc((D.t.get(tn.titleId) || {}).name || 'Title')}</span><span class="b-champ-name">${champ || 'To be crowned'}</span></div></div></div>
+    </div></div></section>`;
+}
+function viewTitles(){
+  const head = `<section class="sec"><div class="sec-head"><h1 class="page-title">Championships</h1>${booker ? '<button class="btn primary" data-act="add-title">Add title</button>' : ''}</div><p class="lede">Reigns come straight from match results. When a challenger wins a title match, the new reign starts on the date of that show.</p></section>`;
+  if (!state.titles.length) return head + `<p class="empty">No championships yet.${booker ? ' Add a title, then set its first champion.' : ''}</p>`;
+  const tours = state.tournaments.length ? `<section class="sec"><h2>Tournaments</h2>${state.tournaments.map(bracketHTML).join('')}</section>` : '';
+  return head + tours + `<section class="sec"><h2>Title histories</h2></section>` + state.titles.map(titleCard).join('');
+}
+
+function promoCard(p){
+  const w = D.w.get(p.wrestlerId), sh = p.showId && D.s.get(p.showId);
+  const long = String(p.body||'').length > 520 && !ui.expanded.has(p.id);
+  return `<article class="promo"><div class="pr-head">${avatar(w,'sm')}<div class="pr-meta">${w ? `<a class="pr-who" href="#w-${esc(w.id)}">${esc(w.name)}</a>` : '<span class="pr-who">Former wrestler</span>'}<span class="pr-date">${esc(fmtDate(p.date))}${sh ? ` · Building to <a href="#s-${esc(sh.id)}">${esc(sh.name)}</a>` : ''}${w && w.handler ? ` · Handler: ${esc(w.handler)}` : ''}</span></div>${p.sample ? '<span class="pill pend">Sample</span>' : ''}${booker ? `<button class="btn sm" data-act="edit-promo" data-id="${esc(p.id)}">Edit</button>` : ''}</div>${p.title ? `<h3 class="pr-title">${esc(p.title)}</h3>` : ''}<div class="pr-body${long ? ' clamp' : ''}" id="pb-${esc(p.id)}">${paras(p.body)}</div>${long ? `<button class="linkish" data-act="expand" data-id="${esc(p.id)}">Read the full promo</button>` : ''}</article>`;
+}
+function hubShow(s){
+  const due = promoDue(s), ms = s.matches || [];
+  const isPPV = s.kind === 'PPV', pp = isPPV ? ppTheme(s) : null;
+  const rows = ms.map(m => {
+    const slots = sideSlots(m);
+    const t = m.titleId && D.t.get(m.titleId);
+    return `<li class="hub-row"><div class="hub-match"><span class="m-meta">${m.label ? `<span class="m-label">${esc(m.label)}</span>` : ''}<span class="m-stip">${esc(m.stip || 'Singles')}</span>${t ? `<span class="plate">${esc(t.name)}</span>` : ''}</span><span class="hub-names">${slots.length ? slots.map(slotPlain).join(' <span class="vs">vs</span> ') : 'To be announced'}</span></div>${threadBtn(m, true)}</li>`;
+  }).join('');
+  return `<section class="hub panel">
+    <div class="hub-head${isPPV ? ' ppv' : ''}"${pp ? ` style="--pp-bg:${pp.bg};--pp-accent:${pp.acc}"` : ''}>
+      <div class="hub-title"><span class="kind">${esc(isPPV ? 'Pay-per-view' : (s.kind || 'Show'))}</span><h2><a href="#s-${esc(s.id)}">${esc(s.name)}</a></h2><span class="hub-date">${esc(fmtDate(s.date, {weekday:'long', month:'long', day:'numeric'}))}</span></div>
+      ${due ? `<div class="hub-due"><span class="lbl">Promos due</span><span class="hub-count" data-due="${due}">${countdownText(due)}</span><span class="hub-when">${esc(fmtDue(due))}</span></div>` : ''}
+    </div>
+    ${ms.length ? `<ul class="hub-list">${rows}</ul>` : '<p class="empty hub-empty">No matches announced yet, so there are no promo threads.</p>'}
+  </section>`;
+}
+function forumLink(){ const u = state.settings.forumUrl || ''; return /^https:\/\/[^\s"<>]+$/.test(u) ? u : ''; }
+function viewForums(){
+  const url = forumLink();
+  const upcoming = D.showsAsc.filter(s => showStatus(s) === 'upcoming');
+  const boards = [
+    ['Announcements', 'Cards, results and league news from the booker.'],
+    ['Join GPW', 'Request the wrestler you want to play.'],
+    ['Overdrive', 'Promo threads for every Overdrive match, plus results.'],
+    ['PPV', 'Promo threads for Zero Hour and every big event, plus results.'],
+    ['Out of Character', 'General chat, predictions and everything else.']
+  ];
+  return `<section class="forum-hero"><div class="fh-in">
+      <span class="lbl fh-eyebrow">The GPW forum</span>
+      <h1 class="page-title">Forums</h1>
+      <p class="fh-text">Every handler posts their own promos in their match's thread. Results are written from the promos, so the better the promo, the better the odds.</p>
+      ${url ? `<a class="btn primary" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Go to the forum <span aria-hidden="true">↗</span></a>` : `<span class="pill pend">Forum link coming soon</span>${booker ? ' <button class="btn sm" data-act="settings">Add the forum link</button>' : ''}`}
+    </div></section>
+  <section class="sec"><h2>On the forum</h2><div class="board-grid">${boards.map(([n, dsc]) => `<div class="board"><span class="board-name">${esc(n)}</span><span class="board-desc">${esc(dsc)}</span></div>`).join('')}</div></section>`;
+}
+function viewRankings(){
+  const rows = rankings();
+  return `<section class="sec"><div class="sec-head"><h1 class="page-title">Rankings</h1></div><p class="lede">Ranked by wins, then win percentage. No contests don't count either way, and inactive wrestlers are left off.</p>
+  ${rows.length ? `<div class="tbl-wrap panel"><table><thead><tr><th class="num">Rank</th><th>Wrestler</th><th class="num">W</th><th class="num">L</th><th class="num">D</th><th class="num">Win %</th><th>Last 5</th></tr></thead><tbody>${rows.map((x,i) => `<tr><td class="num rk">${i+1}</td><td><a class="rk-who" href="#w-${esc(x.w.id)}">${avatar(x.w,'sm')}<span class="rk-txt"><span class="rk-name">${esc(x.w.name)}</span>${heldBy(x.w.id).map(t => `<span class="plate">${esc(t.name)}</span>`).join('')}</span></a></td><td class="num">${x.r.w}</td><td class="num">${x.r.l}</td><td class="num">${x.r.d}</td><td class="num">${x.g ? Math.round(x.pct * 100) + '%' : '–'}</td><td>${x.r.hist.length ? formChips(x.r) : '<span class="hint">No matches yet</span>'}</td></tr>`).join('')}</tbody></table></div>` : '<p class="empty">No wrestlers yet.</p>'}</section>`;
+}
+
+function contactHTML(c){
+  const isLink = /^https:\/\/[^\s"<>]+$/.test(c);
+  return `<div class="contact-line">${isLink ? `<a class="contact" href="${esc(c)}" target="_blank" rel="noopener noreferrer">${esc(c)}</a>` : `<span class="contact">${esc(c)}</span>`}<button class="btn sm" data-act="copy-contact">Copy</button></div>`;
+}
+function viewJoin(){
+  const st = state.settings;
+  const fu = forumLink();
+  const contact = (fu ? `<p>Post it on the forum's Join GPW board.</p><div class="contact-line"><a class="btn primary" href="${esc(fu)}" target="_blank" rel="noopener noreferrer">Go to the forum <span aria-hidden="true">↗</span></a></div>` : '') + (st.contact ? contactHTML(st.contact) : (fu ? '' : `<p class="hint">${booker ? 'Add the forum link in Site settings so applicants know where to post this.' : 'The forum link is coming soon.'}</p>`));
+  const f = (id, label, attrs) => field(id, label, inp(id, '', attrs || 'maxlength="80" autocomplete="off"'));
+  return `<section class="sec"><h1 class="page-title">Join the roster</h1><p class="lede">Tell the booker which wrestler you want to play, send your application, and start cutting promos. Results are written each week based on the storylines and the promos.</p></section>
+  <div class="cols">
+    <section class="sec panel pad">
+      <h2>Request a wrestler</h2>
+      <p class="hint">Type in who you'd like to play, any wrestler you want. Tap Copy application, then post it on the forum's Join GPW board.</p>
+      <div class="grid2">${f('a-first','First choice','maxlength="80" autocomplete="off" placeholder="Wrestler you want to play"')}${f('a-second','Second choice','maxlength="80" autocomplete="off" placeholder="In case your first pick is taken"')}</div>
+      <div class="grid2">${f('a-handler','Your handler name')}${f('a-reach','Best way to reach you')}</div>
+      ${field('a-bio','Why this wrestler? Any storyline ideas?', ta('a-bio','',4))}
+      <div class="app-actions"><button class="btn primary" data-act="copy-app">Copy application</button></div>
+      <textarea id="a-out" rows="9" readonly hidden aria-label="Your application text"></textarea>
+    </section>
+    <div class="stack">
+      <section class="sec panel pad"><h2>Send it to</h2>${contact}${st.deadline ? `<p class="hint">${esc(st.deadline)}</p>` : ''}</section>
+      <section class="sec panel pad"><h2>How a week works</h2><ol class="steps"><li><strong>The card goes up.</strong> Each match gets its own promo thread on the forum.</li><li><strong>Post your promo.</strong> Write in character in your match's thread before the deadline, usually Friday at 11:59 PM ET.</li><li><strong>The show happens.</strong> The booker writes the results, weighing promo quality, activity and storylines.</li><li><strong>Results go up.</strong> Results land on the site, and the next card and threads go up.</li></ol></section>
+      <section class="sec panel pad"><h2>House rules</h2>${st.joinText ? `<div class="prose">${paras(st.joinText)}</div>` : '<p class="hint">Rules haven\'t been posted yet.</p>'}</section>
+    </div>
+  </div>`;
+}
+function appText(){
+  const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const lines = [`Handler application for ${state.settings.name}`, ''];
+  APP_FIELDS.forEach(([id, label]) => lines.push(`${label}: ${v(id)}`));
+  lines.push('', 'Why this wrestler:', v('a-bio'));
+  return lines.join('\n');
+}
+function notFound(what, tab, label){ return `<a class="back" href="#${tab}">← ${label}</a><p class="empty">${what} isn't on the site anymore.</p>`; }
+
+/* ---------- render ---------- */
+function render(){
+  derive();
+  const v = parseHash();
+  let body;
+  if (v.tab === 'roster') body = v.wid ? viewWrestler(v.wid) : viewRoster();
+  else if (v.tab === 'shows') body = v.sid ? viewShow(v.sid) : viewShows();
+  else if (v.tab === 'titles') body = viewTitles();
+  else if (v.tab === 'forums' || v.tab === 'promos') body = viewForums();
+  else if (v.tab === 'rankings') body = viewRankings();
+  else if (v.tab === 'join') body = viewJoin();
+  else body = viewHome();
+  appEl.className = booker ? 'has-bar' : '';
+  appEl.innerHTML = header(v.tab) + `<main class="wrap main" id="main">${sampleNotice()}${body}</main>` + footer() + (booker ? bar() : '');
+  try { document.title = state.settings.name; } catch(e){}
+}
+function changed(){
+  dirty = JSON.stringify(state) !== origJSON;
+  try { if (dirty) localStorage.setItem(DRAFT_KEY, JSON.stringify({baseRev: origRev, state})); else localStorage.removeItem(DRAFT_KEY); } catch(e){}
+  render();
+}
+
+/* ---------- toast ---------- */
+const toastEl = document.createElement('div');
+toastEl.className = 'toast'; toastEl.setAttribute('role','status'); toastEl.hidden = true;
+document.body.appendChild(toastEl);
+let toastT = 0;
+function toast(msg){ toastEl.textContent = msg; toastEl.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { toastEl.hidden = true; }, 4200); }
+
+/* ---------- editor dialog ---------- */
+const dlg = document.createElement('dialog');
+dlg.className = 'editor';
+document.body.appendChild(dlg);
+let edCfg = null;
+function openEditor(cfg){
+  edCfg = cfg;
+  dlg.className = 'editor' + (cfg.wide ? ' wide' : '');
+  dlg.innerHTML = `<form class="ed-form" novalidate>
+    <div class="ed-head"><h2>${esc(cfg.title)}</h2><button type="button" class="icon-btn" data-ed="close" aria-label="Close">×</button></div>
+    <div class="ed-body">${cfg.body}<p class="err" id="ed-err" role="alert" hidden></p></div>
+    <div class="ed-foot">${cfg.onDelete ? `<button type="button" class="btn sm danger" data-ed="delete">${esc(cfg.deleteLabel || 'Delete')}</button>` : ''}<span class="sp"></span><button type="button" class="btn" data-ed="close">${cfg.noSave ? 'Close' : 'Cancel'}</button>${cfg.noSave ? '' : '<button type="submit" class="btn primary">Save</button>'}</div>
+  </form>`;
+  const form = dlg.querySelector('form');
+  if (cfg.onMount) cfg.onMount(form);
+  try { dlg.showModal(); } catch(e){ dlg.setAttribute('open',''); }
+  const first = form.querySelector('.ed-body input:not([type=file]), .ed-body select, .ed-body textarea');
+  if (first) first.focus();
+}
+function closeEditor(){ try { dlg.close(); } catch(e){ dlg.removeAttribute('open'); } dlg.innerHTML = ''; edCfg = null; }
+dlg.addEventListener('click', e => {
+  const b = e.target.closest('[data-ed]');
+  if (!b || !edCfg) return;
+  if (b.dataset.ed === 'close') closeEditor();
+  else if (b.dataset.ed === 'delete'){
+    if (!b.classList.contains('armed')){ b.classList.add('armed'); b.textContent = 'Tap again to delete'; return; }
+    const after = edCfg.afterDelete;
+    edCfg.onDelete(); closeEditor(); changed();
+    if (after) after();
+  }
+});
+dlg.addEventListener('submit', e => {
+  e.preventDefault();
+  if (!edCfg) return;
+  const form = e.target, res = edCfg.onSave(form), err = form.querySelector('#ed-err');
+  if (res && res.msg){ err.textContent = res.msg; err.hidden = false; if (res.field){ const f = form.querySelector('#' + res.field); if (f) f.focus(); } return; }
+  closeEditor(); changed();
+});
+dlg.addEventListener('close', () => { edCfg = null; });
+
+function readPhoto(file){
+  return new Promise((resolve, reject) => {
+    if (!file || !/^image\//.test(file.type)) return reject(new Error('Choose an image file (JPG, PNG or WebP).'));
+    const fr = new FileReader();
+    fr.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const max = 360, s = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(img.width * s)); c.height = Math.max(1, Math.round(img.height * s));
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => reject(new Error('That image could not be opened. Try a JPG or PNG.'));
+      img.src = fr.result;
+    };
+    fr.onerror = () => reject(new Error('That file could not be read.'));
+    fr.readAsDataURL(file);
+  });
+}
+
+function editWrestler(id){
+  const src = id && D.w.get(id);
+  const w = src ? clone(src) : {id:uid('w'), name:'', nickname:'', alignment:'Face', status:'Active', hometown:'', height:'', weight:'', finisher:'', signature:'', theme:'', handler:'', bio:'', photo:'', hue:Math.floor(Math.random() * 360)};
+  let photo = w.photo || '';
+  openEditor({
+    title: src ? 'Edit wrestler' : 'Add wrestler',
+    body: `<div class="grid2">
+        ${field('f-name','Ring name', inp('f-name', w.name, 'required maxlength="60" autocomplete="off"'))}
+        ${field('f-nick','Nickname', inp('f-nick', w.nickname, 'maxlength="60" autocomplete="off"'))}
+        ${field('f-align','Alignment', sel('f-align', ALIGN, w.alignment))}
+        ${field('f-status','Status', sel('f-status', STATUS, w.status))}
+        ${field('f-home','Hometown', inp('f-home', w.hometown, 'maxlength="60"'))}
+        ${field('f-handler','Handler', inp('f-handler', w.handler, 'maxlength="60"'), 'The person who writes this character.')}
+        ${field('f-height','Height', inp('f-height', w.height, 'maxlength="20" placeholder="6\'2&quot;"'))}
+        ${field('f-weight','Weight', inp('f-weight', w.weight, 'maxlength="20" placeholder="230 lbs"'))}
+      </div>
+      ${field('f-fin','Finisher', inp('f-fin', w.finisher, 'maxlength="100"'))}
+      ${field('f-sig','Signature moves', inp('f-sig', w.signature, 'maxlength="160"'))}
+      ${field('f-theme','Entrance theme', inp('f-theme', w.theme, 'maxlength="100"'))}
+      ${field('f-bio','Bio', ta('f-bio', w.bio, 5))}
+      <div class="fld"><span class="lbl-like">Photo or render</span><div class="photo-row"><span id="f-photo-prev">${avatar(Object.assign({}, w, {photo}), 'md')}</span><div class="photo-ctl"><input type="file" id="f-photo" accept="image/*" aria-label="Upload a photo"><button type="button" class="btn sm" id="f-photo-clear"${photo ? '' : ' hidden'}>Remove photo</button><p class="hint">Resized to 360 pixels so the site stays fast.</p>${field('f-credit','Photo credit', inp('f-credit', w.photoCredit, 'maxlength="160" placeholder="Photo by Jane Doe, CC BY-SA 4.0, via Wikimedia Commons"'), 'Required by most free-to-use photo licenses.')}<p class="err" id="f-photo-err" hidden></p></div></div></div>
+      ${src ? '<p class="hint">Retiring someone? Set their status to Inactive to keep their record. Deleting removes them from every match card and deletes their promos.</p>' : ''}`,
+    onMount(form){
+      const fi = form.querySelector('#f-photo'), prev = form.querySelector('#f-photo-prev'), clr = form.querySelector('#f-photo-clear'), er = form.querySelector('#f-photo-err');
+      const show = () => { prev.innerHTML = avatar(Object.assign({}, w, {photo, name: form.querySelector('#f-name').value || w.name}), 'md'); clr.hidden = !photo; };
+      fi.addEventListener('change', async () => {
+        er.hidden = true;
+        const f = fi.files && fi.files[0]; if (!f) return;
+        try { photo = await readPhoto(f); show(); } catch(err){ er.textContent = err.message; er.hidden = false; }
+        fi.value = '';
+      });
+      clr.addEventListener('click', () => { photo = ''; show(); });
+    },
+    onSave(form){
+      const v = k => form.querySelector('#' + k).value.trim();
+      if (!v('f-name')) return {field:'f-name', msg:'Give the wrestler a ring name.'};
+      Object.assign(w, {name:v('f-name'), nickname:v('f-nick'), alignment:v('f-align'), status:v('f-status'), hometown:v('f-home'), handler:v('f-handler'), height:v('f-height'), weight:v('f-weight'), finisher:v('f-fin'), signature:v('f-sig'), theme:v('f-theme'), bio:form.querySelector('#f-bio').value.trim(), photo, photoCredit: photo ? v('f-credit') : ''});
+      upsert(state.wrestlers, w);
+    },
+    onDelete: src ? () => {
+      state.wrestlers = state.wrestlers.filter(x => x.id !== id);
+      state.shows.forEach(s => s.matches.forEach(m => {
+        m.sides = m.sides.map(sd => sd.filter(x => x !== id));
+        if (m.outcome === 'win' && !(m.sides[m.winner] || []).length){ m.outcome = ''; m.winner = null; }
+      }));
+      state.promos = state.promos.filter(p => p.wrestlerId !== id);
+      state.titles.forEach(t => { t.initial = t.initial.filter(x => x !== id); });
+    } : null,
+    afterDelete: () => { if (route === 'w-' + id) go('roster'); },
+    deleteLabel: 'Delete wrestler'
+  });
+}
+
+function newMatch(){ return {id:uid('m'), label:'', stip:'Singles', sides:[[],[]], tbd:[], thread:'', titleId:'', outcome:'', winner:null, method:'', time:'', rating:null, recap:''}; }
+function readMatch(form, m, i){
+  const q = k => form.querySelector('#m' + i + '-' + k);
+  if (!q('stip')) return;
+  m.label = q('label').value.trim();
+  m.stip = q('stip').value.trim();
+  m.titleId = q('title').value;
+  const o = q('out').value;
+  if (o.charAt(0) === 'w'){ m.outcome = 'win'; m.winner = +o.slice(1); } else { m.outcome = o; m.winner = null; }
+  m.method = q('method').value.trim();
+  m.time = q('time').value.trim();
+  const r = q('rating').value; m.rating = r === '' ? null : +r;
+  m.recap = q('recap').value.trim();
+  { const th = q('thread'); if (th) m.thread = th.value.trim(); }
+  m.tbd = m.sides.map((sd, si) => { const el = q('tbd' + si); return sd.length ? '' : (el ? el.value.trim() : ((m.tbd||[])[si] || '')); });
+}
+function matchEditor(m, i, n){
+  const used = new Set([].concat.apply([], m.sides));
+  const avail = state.wrestlers.filter(w => !used.has(w.id)).sort(byName);
+  const out = m.outcome === 'win' ? 'w' + m.winner : (m.outcome || '');
+  const outOpts = [['','No result yet']].concat(m.sides.map((sd, si) => ['w' + si, 'Winner: ' + (sd.length ? sd.map(nameOf).join(' & ') : 'Side ' + (si+1))]), [['draw','Draw'], ['nc','No contest']]);
+  const titleOpts = [['','No title on the line']].concat(state.titles.map(t => [t.id, t.name]));
+  const ratingOpts = [['','Unrated'], ['0','DUD']].concat(Array.from({length:20}, (_, k) => { const v = (k+1) / 4; return [String(v), stars(v) + '  (' + v + ')']; }));
+  const sides = m.sides.map((sd, si) => `<div class="mb-side"><div class="mb-side-top"><span class="lbl">Side ${si+1}</span>${m.sides.length > 2 ? `<button type="button" class="linkish" data-mb="rm-side" data-i="${i}" data-side="${si}">Remove side</button>` : ''}</div><div class="mb-chips">${sd.map(id => `<span class="chip">${esc(nameOf(id))}<button type="button" data-mb="rm-w" data-i="${i}" data-side="${si}" data-w="${esc(id)}" aria-label="Remove ${esc(nameOf(id))}">×</button></span>`).join('')}${avail.length ? `<select data-addw="1" data-i="${i}" data-side="${si}" aria-label="Add a wrestler to side ${si+1}"><option value="">+ Add wrestler</option>${avail.map(w => `<option value="${esc(w.id)}">${esc(w.name)}</option>`).join('')}</select>` : ''}</div>${sd.length ? '' : inp('m'+i+'-tbd'+si, (m.tbd||[])[si] || '', 'maxlength="80" placeholder="Not decided yet? Example: Winner of Moose vs Mance Warner" aria-label="Placeholder for side ' + (si+1) + '"')}</div>`).join('<span class="mb-vs">vs</span>');
+  return `<fieldset class="mb-match"><legend>Match ${i+1}${i === n-1 ? ' · Main event' : ''}</legend>
+    <div class="mb-tools"><button type="button" class="btn sm" data-mb="up" data-i="${i}"${i === 0 ? ' disabled' : ''} aria-label="Move match ${i+1} up">↑ Up</button><button type="button" class="btn sm" data-mb="down" data-i="${i}"${i === n-1 ? ' disabled' : ''} aria-label="Move match ${i+1} down">↓ Down</button><button type="button" class="btn sm danger" data-mb="remove" data-i="${i}">Remove match</button></div>
+    <div class="grid3">${field('m'+i+'-label','Billing', inp('m'+i+'-label', m.label, 'maxlength="40" placeholder="Opener, Main event"'))}${field('m'+i+'-stip','Match type', inp('m'+i+'-stip', m.stip, 'list="dl-stips" maxlength="60"'))}${field('m'+i+'-title','Title on the line', sel('m'+i+'-title', titleOpts, m.titleId))}</div>
+    <div class="mb-sides">${sides}</div>
+    <div><button type="button" class="btn sm" data-mb="add-side" data-i="${i}">Add another side</button></div>
+    <div class="grid4">${field('m'+i+'-out','Result', sel('m'+i+'-out', outOpts, out))}${field('m'+i+'-method','Finish', inp('m'+i+'-method', m.method, 'list="dl-methods" maxlength="60"'))}${field('m'+i+'-time','Match time', inp('m'+i+'-time', m.time, 'maxlength="10" placeholder="12:34"'))}${field('m'+i+'-rating','Star rating', sel('m'+i+'-rating', ratingOpts, m.rating === null || m.rating === undefined ? '' : String(m.rating)))}</div>
+    ${field('m'+i+'-recap','Recap', ta('m'+i+'-recap', m.recap, 3))}
+    ${field('m'+i+'-thread','Promo thread link', inp('m'+i+'-thread', m.thread, 'type="url" maxlength="300" placeholder="https://yourforum.com/thread/123"'), 'The forum thread where both handlers post their promos for this match.')}
+  </fieldset>`;
+}
+function editShow(id){
+  const src = id && D.s.get(id);
+  const s = src ? clone(src) : {id:uid('s'), name:'', kind:'Weekly', date:today(), venue:'', tagline:'', matches:[newMatch()]};
+  let sync = () => {};
+  openEditor({
+    wide: true,
+    title: src ? 'Edit show' : 'Book a show',
+    body: `<datalist id="dl-stips">${STIPS.map(x => `<option value="${esc(x)}"></option>`).join('')}</datalist><datalist id="dl-methods">${METHODS.map(x => `<option value="${esc(x)}"></option>`).join('')}</datalist>
+      <div class="grid2">${field('sh-name','Show name', inp('sh-name', s.name, 'required maxlength="80" placeholder="GPW Overdrive #5" autocomplete="off"'))}${field('sh-kind','Type', sel('sh-kind', KINDS, s.kind))}${field('sh-date','Date', inp('sh-date', s.date, 'type="date" required'))}${field('sh-venue','Arena', inp('sh-venue', s.venue, 'maxlength="100" placeholder="2300 Arena · Philadelphia, PA"'), 'Put a dot (·) between the arena and the city.')}</div>
+      ${field('sh-tag','Tagline', inp('sh-tag', s.tagline, 'maxlength="140"'))}
+      ${field('sh-due','Promo deadline (Eastern Time)', inp('sh-due', s.promoDue || '', 'type="datetime-local"'), 'Leave blank to use the Friday before the show at 11:59 PM ET.')}
+      <div id="sh-ppv"${s.kind === 'PPV' ? '' : ' hidden'}><div class="grid2">${field('sh-art','Pay-per-view poster art', sel('sh-art', Object.keys(PPV_ART).map(k => [k, PPV_ART[k].label]), PPV_ART[s.art] ? s.art : 'stripes'))}${field('sh-accent','Poster accent color', inp('sh-accent', s.accent || PPV_ART[PPV_ART[s.art] ? s.art : 'stripes'].accent, 'type="color"'))}</div><p class="hint">Each pay-per-view gets its own poster. Pick art and a color that fit the event.</p></div>
+      <div class="mb-head"><h3>Match card</h3><p class="hint">List matches in running order. The last one is the main event. Post results by picking a winner, finish and rating for each match.</p></div>
+      <div id="mb" class="mb"></div>
+      <div><button type="button" class="btn" data-mbadd="1">Add match</button></div>`,
+    onMount(form){
+      const mb = form.querySelector('#mb');
+      const kindSel = form.querySelector('#sh-kind'), ppvBox = form.querySelector('#sh-ppv'), artSel = form.querySelector('#sh-art'), accIn = form.querySelector('#sh-accent');
+      kindSel.addEventListener('change', () => { ppvBox.hidden = kindSel.value !== 'PPV'; });
+      artSel.addEventListener('change', () => { accIn.value = PPV_ART[artSel.value].accent; });
+      const draw = () => { mb.innerHTML = s.matches.length ? s.matches.map((m, i) => matchEditor(m, i, s.matches.length)).join('') : '<p class="empty">No matches yet.</p>'; };
+      sync = () => s.matches.forEach((m, i) => readMatch(form, m, i));
+      draw();
+      form.querySelector('[data-mbadd]').addEventListener('click', () => { sync(); s.matches.push(newMatch()); draw(); const last = mb.lastElementChild; if (last && last.scrollIntoView) last.scrollIntoView({block:'nearest'}); });
+      mb.addEventListener('click', e => {
+        const b = e.target.closest('[data-mb]'); if (!b) return;
+        const i = +b.dataset.i, a = b.dataset.mb, m = s.matches[i]; if (!m) return;
+        sync();
+        if (a === 'up' && i > 0){ const x = s.matches[i-1]; s.matches[i-1] = m; s.matches[i] = x; }
+        else if (a === 'down' && i < s.matches.length - 1){ const x = s.matches[i+1]; s.matches[i+1] = m; s.matches[i] = x; }
+        else if (a === 'remove'){ if (!b.classList.contains('armed')){ b.classList.add('armed'); b.textContent = 'Tap again to remove'; return; } s.matches.splice(i, 1); }
+        else if (a === 'add-side') m.sides.push([]);
+        else if (a === 'rm-side'){ const si = +b.dataset.side; m.sides.splice(si, 1); if (m.outcome === 'win'){ if (m.winner === si){ m.outcome = ''; m.winner = null; } else if (m.winner > si) m.winner--; } }
+        else if (a === 'rm-w'){ const si = +b.dataset.side; m.sides[si] = m.sides[si].filter(x => x !== b.dataset.w); }
+        draw();
+      });
+      mb.addEventListener('change', e => {
+        const t = e.target; if (!t.matches('select[data-addw]') || !t.value) return;
+        sync();
+        const m = s.matches[+t.dataset.i]; if (m) m.sides[+t.dataset.side].push(t.value);
+        draw();
+      });
+    },
+    onSave(form){
+      sync();
+      const v = k => form.querySelector('#' + k).value.trim();
+      if (!v('sh-name')) return {field:'sh-name', msg:'Give the show a name.'};
+      if (!parseD(v('sh-date'))) return {field:'sh-date', msg:'Pick a date for the show.'};
+      for (let i = 0; i < s.matches.length; i++){
+        const m = s.matches[i];
+        if (m.thread && !/^https:\/\/[^\s"<>]+$/.test(m.thread)) return {msg:`Match ${i+1}: the promo thread link must start with https://`};
+        if (m.outcome === 'win' && !(m.sides[m.winner] && m.sides[m.winner].length)) return {msg:`Match ${i+1}: the winning side has no wrestlers. Add them or change the result.`};
+      }
+      Object.assign(s, {name:v('sh-name'), kind:v('sh-kind'), date:v('sh-date'), venue:v('sh-venue'), tagline:v('sh-tag'), art:v('sh-art'), accent:v('sh-accent'), promoDue:v('sh-due')});
+      upsert(state.shows, s);
+    },
+    onDelete: src ? () => { state.shows = state.shows.filter(x => x.id !== id); state.promos.forEach(p => { if (p.showId === id) p.showId = ''; }); } : null,
+    afterDelete: () => { if (route === 's-' + id) go('shows'); },
+    deleteLabel: 'Delete show'
+  });
+}
+
+function editPromo(id){
+  if (!state.wrestlers.length){ toast('Add a wrestler first. Every promo belongs to a wrestler.'); return; }
+  const src = id && state.promos.find(x => x.id === id);
+  const ns = nextShow();
+  const p = src ? clone(src) : {id:uid('p'), wrestlerId: ui.pw || state.wrestlers.slice().sort(byName)[0].id, title:'', date:today(), showId: ns ? ns.id : '', body:''};
+  const wopts = state.wrestlers.slice().sort(byName).map(w => [w.id, w.name]);
+  const sopts = [['','No specific show']].concat(state.shows.slice().sort(byDateDesc).map(s => [s.id, s.name + ' (' + fmtDate(s.date, {month:'short', day:'numeric'}) + ')']));
+  openEditor({
+    title: src ? 'Edit promo' : 'Post a promo',
+    body: `<div class="grid2">${field('p-w','Wrestler', sel('p-w', wopts, p.wrestlerId))}${field('p-date','Date', inp('p-date', p.date, 'type="date"'))}</div>
+      ${field('p-title','Title', inp('p-title', p.title, 'maxlength="100" autocomplete="off"'))}
+      ${field('p-show','Building to', sel('p-show', sopts, p.showId))}
+      ${field('p-body','Promo', ta('p-body', p.body, 12), 'Paste the handler\'s promo here. Leave a blank line between paragraphs.')}`,
+    onSave(form){
+      const v = k => form.querySelector('#' + k).value.trim();
+      if (!v('p-title')) return {field:'p-title', msg:'Give the promo a title.'};
+      if (!v('p-body')) return {field:'p-body', msg:'The promo is empty.'};
+      Object.assign(p, {wrestlerId:v('p-w'), date:v('p-date') || today(), title:v('p-title'), showId:v('p-show'), body:form.querySelector('#p-body').value.trim()});
+      upsert(state.promos, p);
+    },
+    onDelete: src ? () => { state.promos = state.promos.filter(x => x.id !== id); } : null,
+    deleteLabel: 'Delete promo'
+  });
+}
+
+function editTitle(id){
+  const src = id && D.t.get(id);
+  const t = src ? clone(src) : {id:uid('t'), name:'', tier:'Secondary', initial:[], initialDate:today(), about:''};
+  const ws = state.wrestlers.slice().sort(byName).map(w => [w.id, w.name]);
+  openEditor({
+    title: src ? 'Edit title' : 'Add title',
+    body: `${field('t-name','Title name', inp('t-name', t.name, 'maxlength="80" placeholder="Television Championship" autocomplete="off"'))}
+      <div class="grid2">${field('t-tier','Division', sel('t-tier', TIERS, t.tier))}${field('t-date','First champion crowned on', inp('t-date', t.initialDate, 'type="date"'))}</div>
+      <div class="grid2">${field('t-c1','First champion', sel('t-c1', [['','Vacant']].concat(ws), t.initial[0] || ''))}${field('t-c2','Partner (tag titles only)', sel('t-c2', [['','None']].concat(ws), t.initial[1] || ''))}</div>
+      <p class="hint">After this, title changes come from results. Put the title on a match, post the result, and a new reign starts whenever the challenger wins.</p>
+      ${field('t-about','Short description', inp('t-about', t.about, 'maxlength="160"'))}`,
+    onSave(form){
+      const v = k => form.querySelector('#' + k).value.trim();
+      if (!v('t-name')) return {field:'t-name', msg:'Give the title a name.'};
+      const init = [v('t-c1'), v('t-c2')].filter(Boolean).filter((x, i, a) => a.indexOf(x) === i);
+      Object.assign(t, {name:v('t-name'), tier:v('t-tier'), initialDate:v('t-date') || today(), initial:init, about:v('t-about')});
+      upsert(state.titles, t);
+    },
+    onDelete: src ? () => { state.titles = state.titles.filter(x => x.id !== id); state.shows.forEach(s => s.matches.forEach(m => { if (m.titleId === id) m.titleId = ''; })); } : null,
+    deleteLabel: 'Delete title'
+  });
+}
+
+function editNews(id){
+  const src = id && state.news.find(x => x.id === id);
+  const n = src ? clone(src) : {id:uid('n'), title:'', date:today(), body:''};
+  openEditor({
+    title: src ? 'Edit news' : 'Post news',
+    body: `${field('n-title','Headline', inp('n-title', n.title, 'maxlength="120" autocomplete="off"'))}${field('n-date','Date', inp('n-date', n.date, 'type="date"'))}${field('n-body','Story', ta('n-body', n.body, 8), 'Leave a blank line between paragraphs.')}`,
+    onSave(form){
+      const v = k => form.querySelector('#' + k).value.trim();
+      if (!v('n-title')) return {field:'n-title', msg:'Give the story a headline.'};
+      Object.assign(n, {title:v('n-title'), date:v('n-date') || today(), body:form.querySelector('#n-body').value.trim()});
+      upsert(state.news, n);
+    },
+    onDelete: src ? () => { state.news = state.news.filter(x => x.id !== id); } : null,
+    deleteLabel: 'Delete story'
+  });
+}
+function editSettings(){
+  const st = state.settings;
+  openEditor({
+    title: 'Site settings',
+    body: `<div class="grid2">${field('s-name','Federation name', inp('s-name', st.name, 'maxlength="60" autocomplete="off"'))}${field('s-short','Short name', inp('s-short', st.short, 'maxlength="6" autocomplete="off"'), 'Shown in the gold badge.')}</div>
+      ${field('s-tag','Tagline', inp('s-tag', st.tagline, 'maxlength="120"'))}
+      ${field('s-forum','Forum link', inp('s-forum', st.forumUrl, 'type="url" maxlength="300" placeholder="https://gpw.yourforum.com"'), 'Used on the Forums tab and the Join page.')}
+      ${field('s-contact','Where applicants send their wrestler', inp('s-contact', st.contact, 'maxlength="200" placeholder="Discord invite link or email address"'), 'Shown on the Join page. Links that start with https:// become clickable.')}
+      ${field('s-deadline','Promo deadline', inp('s-deadline', st.deadline, 'maxlength="160"'))}
+      ${field('s-join','House rules and how to join', ta('s-join', st.joinText, 9), 'Leave a blank line between paragraphs.')}`,
+    onSave(form){
+      const v = k => form.querySelector('#' + k).value.trim();
+      if (!v('s-name')) return {field:'s-name', msg:'Give the federation a name.'};
+      if (v('s-forum') && !/^https:\/\/[^\s"<>]+$/.test(v('s-forum'))) return {field:'s-forum', msg:'The forum link must start with https://'};
+      Object.assign(state.settings, {name:v('s-name'), short:v('s-short'), tagline:v('s-tag'), contact:v('s-contact'), forumUrl:v('s-forum'), deadline:v('s-deadline'), joinText:form.querySelector('#s-join').value.trim()});
+    }
+  });
+}
+
+/* ---------- publish (the page saves a new version of itself) ---------- */
+function getReset(){
+  try { const list = document.head ? document.head.querySelectorAll('style') : []; for (const s of list){ const t = s.textContent || ''; if (t.indexOf('safe-area-inset') !== -1 && t.length < 4000) return t; } } catch(e){}
+  return RESET_FALLBACK;
+}
+function buildDocument(next, mode){
+  const SC = '<' + '/script>';
+  const css = document.getElementById('fed-style').textContent;
+  const code = document.getElementById('fed-app').textContent;
+  const json = JSON.stringify(next).replace(/</g, '\\u003c').replace(new RegExp('\\u2028', 'g'), '\\u2028').replace(new RegExp('\\u2029', 'g'), '\\u2029');
+  return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + (mode ? RESET_FALLBACK : getReset()) + '</style></head><body>'
+    + '<title>' + esc(next.settings.name || 'Wrestling Federation') + '</title>\n'
+    + (mode === 'booker' ? '<meta name="gpw-mode" content="booker">\n' : '')
+    + (mode ? '' : '<meta name="claude:viewport-fit-sides" content="cover">\n')
+    + FONT_LINK + '\n'
+    + '<style id="fed-style">' + css + '</style>\n'
+    + '<div id="app"></div>\n'
+    + '<script type="application/json" id="fed-data">' + json + SC + '\n'
+    + '<script id="fed-app">' + code + SC
+    + '</body></html>';
+}
+function wixCode(){
+  const next = clone(state); next.rev = origRev + 1;
+  const html = buildDocument(next, 'wix');
+  openEditor({
+    wide: true,
+    title: 'Code for Wix',
+    body: `<p>Copy all of this, then in Wix click your Embed HTML element, choose <strong>Enter Code</strong>, replace everything in the box with it, and click <strong>Apply</strong>. Then publish your Wix site.</p>
+      <div><button type="button" class="btn primary" id="wx-copy">Copy code</button></div>
+      <textarea id="wx-code" rows="12" readonly aria-label="Code for Wix" style="font-family:ui-monospace,Menlo,monospace;font-size:12px"></textarea>
+      <p class="hint">After updating Wix, click Save booker file too, so your next edits start from this version.</p>`,
+    onMount(form){
+      const t = form.querySelector('#wx-code'); t.value = html;
+      form.querySelector('#wx-copy').addEventListener('click', () => {
+        const done = () => toast('Code copied. Paste it into your Wix Embed HTML element.');
+        const sel = () => { t.focus(); t.select(); toast('Press Ctrl+C (or Cmd+C on a Mac) to copy the selected code.'); };
+        try { navigator.clipboard.writeText(html).then(done, sel); } catch(e){ sel(); }
+      });
+    },
+    noSave: true,
+    onSave(){ return {msg:'Close this window once you have copied the code.'}; }
+  });
+}
+function downloadHTML(html, name){
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+function siteFile(){
+  const next = clone(state); next.rev = origRev + 1;
+  try { downloadHTML(buildDocument(next, 'site'), 'index.html'); toast('Downloaded index.html. Upload it to your GitHub repository to update the site.'); }
+  catch(e){ toast('The file could not be saved from here.'); }
+}
+function saveBooker(){
+  const next = clone(state); next.rev = origRev + 1;
+  try {
+    const blob = new Blob([buildDocument(next, 'booker')], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'gpw-booker.html';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast('Saved. Use the new gpw-booker.html next time, and delete the old one.');
+  } catch(e){ toast('The file could not be saved from here.'); }
+}
+async function publish(){
+  if (publishing || !dirty) return;
+  if (!art){ toast('Publishing works when the site is opened in Claude.'); return; }
+  const next = clone(state); next.rev = origRev + 1;
+  let html;
+  try { html = buildDocument(next); } catch(e){ toast('The page could not be prepared for publishing. Your changes are still here.'); return; }
+  publishing = true; render();
+  const stop = msg => { publishing = false; render(); if (msg) toast(msg); };
+  for (let attempt = 0; attempt < 2; attempt++){
+    try {
+      await art.publish(html);
+      try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
+      toast('Published. Loading the new version…');
+      return;
+    } catch(e){
+      const code = e && e.code;
+      if (code === 'conflict'){ toast('Someone published a newer version first. Loading it now.'); return; }
+      if (['not_writer','not_granted','consent_required','capability_disabled','capability_removed','not_declared'].indexOf(code) !== -1){ canWrite = false; writeUnknown = false; booker = false; return stop('This view is read-only, so changes can\'t be published from here.'); }
+      if (code === 'too_large') return stop('The site is over the size limit. Remove a few photos, then publish again.');
+      if (code === 'rate_limited') return stop('Too many publishes in a row. Wait a minute, then publish again.');
+      if (code === 'invalid_content' || code === 'transform_error') return stop('The new version could not be saved. Your changes are still here.');
+      if (attempt === 0){ await new Promise(r => setTimeout(r, 700 + Math.random() * 1300)); continue; }
+      return stop('Publishing failed. Your changes are still here, so try again in a moment.');
+    }
+  }
+}
+
+/* ---------- copy ---------- */
+function copyText(text, okMsg, outId){
+  const showOut = () => { const t = outId && document.getElementById(outId); if (t){ t.value = text; t.hidden = false; return t; } return null; };
+  const fallback = () => { const t = showOut(); if (t){ t.focus(); t.select(); toast('Copy the selected text below.'); } else toast('Copying isn\'t available here. Select the text and copy it.'); };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(() => { showOut(); toast(okMsg); }, fallback);
+    else fallback();
+  } catch(e){ fallback(); }
+}
+
+/* ---------- events ---------- */
+appEl.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act, id = b.dataset.id;
+  if (a === 'toggle-booker'){ booker = !booker; try { localStorage.setItem('fed-booker', booker ? '1' : '0'); } catch(_){} render(); }
+  else if (a === 'try-booker'){ booker = true; render(); }
+  else if (a === 'add-wrestler') editWrestler();
+  else if (a === 'edit-wrestler') editWrestler(id);
+  else if (a === 'add-show') editShow();
+  else if (a === 'edit-show') editShow(id);
+  else if (a === 'add-promo') editPromo();
+  else if (a === 'edit-promo') editPromo(id);
+  else if (a === 'add-title') editTitle();
+  else if (a === 'edit-title') editTitle(id);
+  else if (a === 'settings') editSettings();
+  else if (a === 'add-news') editNews();
+  else if (a === 'edit-news') editNews(id);
+  else if (a === 'publish') publish();
+  else if (a === 'wix-code') wixCode();
+  else if (a === 'save-booker') saveBooker();
+  else if (a === 'site-file') siteFile();
+  else if (a === 'discard'){
+    if (!ui.discardArmed){ ui.discardArmed = true; render(); setTimeout(() => { if (ui.discardArmed){ ui.discardArmed = false; render(); } }, 4000); }
+    else { ui.discardArmed = false; state = normalize(JSON.parse(origJSON)); changed(); toast('Changes discarded.'); }
+  }
+  else if (a === 'keep-sample'){ state.settings.sample = false; changed(); }
+  else if (a === 'clear-sample'){
+    if (!ui.clearArmed){ ui.clearArmed = true; render(); }
+    else { ui.clearArmed = false; state.wrestlers = []; state.titles = []; state.shows = []; state.promos = []; state.news = []; state.settings.sample = false; changed(); toast('Sample data cleared. Publish to make it live.'); }
+  }
+  else if (a === 'filter-align'){ ui.align = b.dataset.v || ''; render(); }
+  else if (a === 'expand'){ ui.expanded.add(id); const el = document.getElementById('pb-' + id); if (el) el.classList.remove('clamp'); b.hidden = true; }
+  else if (a === 'copy-app') copyText(appText(), 'Application copied. Post it on the forum\'s Join GPW board.', 'a-out');
+  else if (a === 'copy-contact') copyText(state.settings.contact, 'Copied.', null);
+});
+appEl.addEventListener('input', e => {
+  if (e.target.id === 'roster-q'){ ui.q = e.target.value; derive(); const g = document.getElementById('roster-grid'); if (g) g.innerHTML = rosterCards(); }
+});
+appEl.addEventListener('change', e => {
+  if (e.target.id === 'promo-filter'){ ui.pw = e.target.value; render(); }
+});
+document.addEventListener('click', e => {
+  const a = e.target.closest && e.target.closest('a[href^="#"]');
+  if (!a) return;
+  e.preventDefault();
+  go(a.getAttribute('href').slice(1));
+}, true);
+setInterval(() => { document.querySelectorAll('[data-due]').forEach(el => { const t = countdownText(+el.dataset.due); if (el.textContent !== t) el.textContent = t; }); }, 30000);
+window.addEventListener('hashchange', () => { let h = ''; try { h = decodeURIComponent((location.hash || '').slice(1)); } catch(e){} if (h && h !== route) go(h); });
+
+/* ---------- start ---------- */
+async function initCaps(){
+  if (LOCAL_BOOKER){ canWrite = true; booker = true; return; }
+  const c = window.claude;
+  if (!c || typeof c.use !== 'function') return;
+  try { art = await c.use('artifact'); } catch(e){ art = null; }
+  if (!art) return;
+  let u = null;
+  try { u = await c.use('user'); } catch(e){ u = null; }
+  if (u){
+    let ok = false;
+    try { ok = await u.canEdit(); } catch(e){}
+    if (!ok){ try { ok = await u.isOwner(); } catch(e){} }
+    canWrite = !!ok;
+  } else writeUnknown = true;
+}
+function restoreDraft(){
+  if (!canWrite) return;
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch(e){ return; }
+  if (!d || !d.state) return;
+  if (d.baseRev !== origRev){ try { localStorage.removeItem(DRAFT_KEY); } catch(e){} return; }
+  const s = normalize(d.state);
+  if (JSON.stringify(s) === origJSON) return;
+  state = s; dirty = true; booker = true;
+  toast(LOCAL_BOOKER ? 'Restored the changes you made last time.' : 'Restored your unpublished changes.');
+}
+
+render();
+initCaps().then(() => {
+  if (canWrite){ try { if (localStorage.getItem('fed-booker') === '1') booker = true; } catch(e){} }
+  restoreDraft();
+  render();
+});
+})();
+</script></body></html>
